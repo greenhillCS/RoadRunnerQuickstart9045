@@ -45,14 +45,6 @@ import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.*;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = DriveConstants.TRANSLATIONAL_PID;
-    public static PIDCoefficients HEADING_PID = DriveConstants.HEADING_PID;
-
-    public static double LATERAL_MULTIPLIER = DriveConstants.LATERAL_MULTIPLIER;
-
-    public static double VX_WEIGHT = DriveConstants.VX_WEIGHT;
-    public static double VY_WEIGHT = DriveConstants.VY_WEIGHT;
-    public static double OMEGA_WEIGHT = DriveConstants.OMEGA_WEIGHT;
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 

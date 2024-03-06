@@ -7,10 +7,14 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants;
 import org.firstinspires.ftc.teamcode.util.Encoder;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.*;
 
 /*
  * Sample tracking wheel localizer implementation assuming the standard configuration:
@@ -27,12 +31,7 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 0;
-    public static double WHEEL_RADIUS = 2; // in
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 10; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 4; // in; offset of the lateral wheel
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 

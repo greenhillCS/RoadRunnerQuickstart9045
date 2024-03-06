@@ -80,6 +80,9 @@ public class DriveConstantsSample {
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
 
+    public static double LATERAL_DISTANCE = 10; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 4; // in; offset of the lateral wheel
+
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
      */
