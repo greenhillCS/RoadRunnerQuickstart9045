@@ -16,21 +16,33 @@ public class MeepMeepTesting {
 
         double botLength = 16.33858;
 
-        double[] startingPos = {0.0, 0.0};
+        double[] startingPos = {-36, 70-(botLength/2)};
+        double startHeading = Math.toRadians(-90);
 
         MeepMeep meepMeep = new MeepMeep(800);
-
-        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-                // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(30, 30, Math.toRadians(60), Math.toRadians(60), trackWidth)
-                // Option: Set theme. Default = ColorSchemeRedDark()
-                .setColorScheme(new ColorSchemeRedDark())
-                .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(startingPos[0], startingPos[1], 0))
-                                .lineToSplineHeading(new Pose2d(49, 36, Math.toRadians(180)))
+        /*.lineToSplineHeading(new Pose2d(49, 36, Math.toRadians(180)))
                                 //drop arm
                                 .lineToConstantHeading(new Vector2d(0, 0))
                                 .lineToConstantHeading(new Vector2d(-59, 23.5))
+                                */
+
+        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
+                // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(30, 30, Math.toRadians(60), 4.467498059104943, trackWidth)
+                // Option: Set theme. Default = ColorSchemeRedDark()
+                .setColorScheme(new ColorSchemeRedDark())
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(new Pose2d(startingPos[0], startingPos[1], startHeading))
+                                .lineTo(new Vector2d(startingPos[0], startingPos[1] - 27))
+                                .turn(Math.toRadians(360))
+                                .lineToSplineHeading(new Pose2d(15, startingPos[1] - 27, Math.toRadians(-90)))
+                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 27, 0))
+                                .lineToSplineHeading(new Pose2d(0, startingPos[1] - 27, Math.toRadians(180)))
+                                .lineTo(new Vector2d(-61, startingPos[1] - 27))
+                                .lineTo(new Vector2d(10, startingPos[1] - 27))
+                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 27, 0))
+                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 3, 0))
+                                .lineToSplineHeading(new Pose2d(60, startingPos[1] - 3, 0))
                                 .build()
                 );
 

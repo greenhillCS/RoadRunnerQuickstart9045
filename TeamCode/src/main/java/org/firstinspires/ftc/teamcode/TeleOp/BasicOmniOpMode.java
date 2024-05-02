@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Config.LinearActuator;
 import org.firstinspires.ftc.teamcode.Config.PixelRelease;
 import org.firstinspires.ftc.teamcode.Config.SlideController;
 import org.firstinspires.ftc.teamcode.Config.droneLauncher;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(name="Correct OpMode", group="Linear OpMode")
 public class BasicOmniOpMode extends LinearOpMode {
@@ -20,7 +22,7 @@ public class BasicOmniOpMode extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
 
     // Constants for acceleration and maximum speed
-    private static final double ACCELERATION = 0.5;
+    private static final double ACCELERATION = 0.25;
     private static final double MAX_SPEED = 0.75; // Adjust this value for your desired speed
 
     private double leftFrontPower = 0;
@@ -39,6 +41,8 @@ public class BasicOmniOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
         DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
         DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "leftBack");
         DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
@@ -54,8 +58,8 @@ public class BasicOmniOpMode extends LinearOpMode {
         Servo wallServo = hardwareMap.get(Servo.class, "WS");
         DcMotor droneMotor = hardwareMap.get(DcMotor.class, "DM");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
@@ -75,9 +79,10 @@ public class BasicOmniOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             double max;
 
-            double axial = gamepad1.left_stick_y;
+            double axial = -gamepad1.left_stick_y;
             double lateral = -gamepad1.left_stick_x;
-            double yaw = gamepad1.right_stick_x;
+            double yaw = -gamepad1.right_stick_x;
+            telemetry.addData("yaw", yaw);
 
             // Calculate the target powers for each wheel
             double targetLeftFrontPower = axial + lateral + yaw;
@@ -165,6 +170,7 @@ public class BasicOmniOpMode extends LinearOpMode {
                 pixelReleaser.open(wallServo);
             }
 
+            drive.update();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);

@@ -16,16 +16,16 @@ public class RoadrunnerAidedTeleOp extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(0, 0, 0));
 
-        Trajectory originTrajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToSplineHeading(new Pose2d(0, 0, 0))
-                .build();
-
         waitForStart();
 
         while (!isStopRequested()) {
             if (gamepad1.x){
-                drive.followTrajectory(originTrajectory);
+                telemetry.addData("returning:", "yes");
+                drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
+                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .build());
             }else {
+                telemetry.addData("returning:", "nope");
                 drive.setWeightedDrivePower(
                         new Pose2d(
                                 -gamepad1.left_stick_y,

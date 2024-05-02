@@ -47,7 +47,8 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 16.33858; // in
+    public static double TRACK_WIDTH = 17.06; // in
+    public static double BOT_LENGTH = 17.875;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -57,12 +58,12 @@ public class DriveConstants {
      */
     public static double MAX_VEL = 30;
     public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(60);
-    public static double MAX_ANG_ACCEL = Math.toRadians(60);
+    public static double MAX_ANG_VEL = 4.467498059104943;
+    public static double MAX_ANG_ACCEL = Math.toRadians(90);
 
-    public static double kV = 0.0134; //0.00042850217475137075
-    public static double kA = 0.00455; //0.000015
-    public static double kStatic = 0.01146; //1.0554915283895978
+    public static double kV = 0.016; //0.00042850217475137075
+    public static double kA = 0.005; //0.00455
+    public static double kStatic = 0.01085 ; //0.01146
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -72,20 +73,20 @@ public class DriveConstants {
      * inches.
      */
 
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(10, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(10, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 1.473936943197963;
+    public static double LATERAL_MULTIPLIER = 1.6;//1.473936943197963
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
 
-    public static double LATERAL_DISTANCE = 12.238212056475202; // in; distance between the left and right wheels
+    public static double LATERAL_DISTANCE = 12; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = 2.75; // in; offset of the lateral wheel
 
-    public static double X_MULTIPLIER = 0.5060624815692925;
-    public static double Y_MULTIPLIER = 0.5054266893363561;
+    public static double X_MULTIPLIER = 0.4968; //0.4968732578591515
+    public static double Y_MULTIPLIER = 0.4969; //0.4965657004143827
 
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
