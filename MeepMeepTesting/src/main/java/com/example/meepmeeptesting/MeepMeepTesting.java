@@ -16,7 +16,7 @@ public class MeepMeepTesting {
 
         double botLength = 16.33858;
 
-        double[] startingPos = {-36, 70-(botLength/2)};
+        double[] startingPos = {-36, 68-(botLength/2)};
         double startHeading = Math.toRadians(-90);
 
         MeepMeep meepMeep = new MeepMeep(800);
@@ -33,16 +33,16 @@ public class MeepMeepTesting {
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(startingPos[0], startingPos[1], startHeading))
-                                .lineTo(new Vector2d(startingPos[0], startingPos[1] - 27))
+                                .lineTo(new Vector2d(startingPos[0], startingPos[1] - 25))
                                 .turn(Math.toRadians(360))
-                                .lineToSplineHeading(new Pose2d(15, startingPos[1] - 27, Math.toRadians(-90)))
-                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 27, 0))
-                                .lineToSplineHeading(new Pose2d(0, startingPos[1] - 27, Math.toRadians(180)))
-                                .lineTo(new Vector2d(-61, startingPos[1] - 27))
-                                .lineTo(new Vector2d(10, startingPos[1] - 27))
-                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 27, 0))
-                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 3, 0))
-                                .lineToSplineHeading(new Pose2d(60, startingPos[1] - 3, 0))
+                                .lineToSplineHeading(new Pose2d(20, startingPos[1] - 25, Math.toRadians(-90)))
+                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 25, 0))
+                                .lineToSplineHeading(new Pose2d(20, startingPos[1] - 25, Math.toRadians(180)))
+                                .lineTo(new Vector2d(-61, startingPos[1] - 25))
+                                .lineTo(new Vector2d(10, startingPos[1] - 25))
+                                .lineTo(new Vector2d(48, startingPos[1] - 25))
+                                .lineTo(new Vector2d(48, startingPos[1] - 4))
+                                .lineTo(new Vector2d(60, startingPos[1] - 4))
                                 .build()
                 );
 
