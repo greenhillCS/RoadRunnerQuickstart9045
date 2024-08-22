@@ -26,7 +26,7 @@ public class forShowAuton extends LinearOpMode {
                 .turn(Math.toRadians(360))
                 .lineToSplineHeading(new Pose2d(20, startingPos[1] - 25, Math.toRadians(-90)))
                 .lineToSplineHeading(new Pose2d(48, startingPos[1] - 25, 0))
-                .lineToSplineHeading(new Pose2d(20, startingPos[1] - 25, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(30, startingPos[1] - 25, Math.toRadians(180)))
                 .lineTo(new Vector2d(-61, startingPos[1] - 25))
                 .lineTo(new Vector2d(10, startingPos[1] - 25))
                 .lineTo(new Vector2d(48, startingPos[1] - 25))
