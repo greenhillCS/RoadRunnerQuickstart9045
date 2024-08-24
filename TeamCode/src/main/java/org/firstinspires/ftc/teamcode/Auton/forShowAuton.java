@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode.Auton;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(group="centerstage", name="forShowAuton")
@@ -26,7 +25,8 @@ public class forShowAuton extends LinearOpMode {
                 .turn(Math.toRadians(360))
                 .lineToSplineHeading(new Pose2d(20, startingPos[1] - 25, Math.toRadians(-90)))
                 .lineToSplineHeading(new Pose2d(48, startingPos[1] - 25, 0))
-                .lineToSplineHeading(new Pose2d(30, startingPos[1] - 25, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(30, startingPos[1] - 25, Math.toRadians(179)))
+                .waitSeconds(1)
                 .lineTo(new Vector2d(-61, startingPos[1] - 25))
                 .lineTo(new Vector2d(10, startingPos[1] - 25))
                 .lineTo(new Vector2d(48, startingPos[1] - 25))

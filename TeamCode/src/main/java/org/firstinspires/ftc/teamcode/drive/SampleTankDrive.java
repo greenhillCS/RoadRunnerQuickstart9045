@@ -37,18 +37,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants.kV;
-import org.firstinspires.ftc.teamcode.drive.wideBot.DriveConstants;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants.kV;
+import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 
 /*
  * Simple tank drive hardware implementation for REV hardware.
