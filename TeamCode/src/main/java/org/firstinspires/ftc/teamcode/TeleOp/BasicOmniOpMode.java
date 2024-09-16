@@ -80,8 +80,8 @@ public class BasicOmniOpMode extends LinearOpMode {
             double max;
 
             double axial = -gamepad1.left_stick_y;
-            double lateral = -gamepad1.left_stick_x;
-            double yaw = -gamepad1.right_stick_x;
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
             telemetry.addData("yaw", yaw);
 
             // Calculate the target powers for each wheel
