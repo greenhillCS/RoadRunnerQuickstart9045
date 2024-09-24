@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public class forShowAuton extends LinearOpMode {
     public void runOpMode(){
         double[] startingPos = {-36.0, 70.0-(DriveConstants.BOT_LENGTH/2)};
-        double startHeading = -90;
+        double startHeading = 90;
         Pose2d start = new Pose2d(startingPos[0], startingPos[1], Math.toRadians(startHeading));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -33,6 +33,8 @@ public class forShowAuton extends LinearOpMode {
                 .lineTo(new Vector2d(48, startingPos[1] - 4))
                 .lineTo(new Vector2d(60, startingPos[1] - 4))
                 .build();
+
+        waitForStart();
 
         drive.followTrajectorySequence(t);
     }
