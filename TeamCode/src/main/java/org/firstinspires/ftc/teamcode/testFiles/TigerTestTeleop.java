@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name = "Drone Test Tiger")
+@TeleOp(group="test", name = "Drone Test Tiger")
 public class TigerTestTeleop extends LinearOpMode {
 
     @Override

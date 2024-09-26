@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(group="Test OpMode", name="Rocket League OpMode")
+@TeleOp(group="test", name="Rocket League OpMode")
 public class TestTeleOp extends LinearOpMode{
     private final ElapsedTime runtime = new ElapsedTime();
 

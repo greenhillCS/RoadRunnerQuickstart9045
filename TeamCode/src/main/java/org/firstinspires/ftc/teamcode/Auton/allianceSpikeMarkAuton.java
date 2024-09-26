@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -33,5 +34,7 @@ public class allianceSpikeMarkAuton extends LinearOpMode {
                 .build();
 
         drive.followTrajectorySequence(t);
+
+        PositionStorage.pose = drive.getPoseEstimate();
     }
 }

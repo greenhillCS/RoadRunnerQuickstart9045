@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Config.GreenhillHardware;
 
-@TeleOp(group = "thing", name = "thing")
+@TeleOp(group = "test", name = "thing")
 
 public class Thing extends LinearOpMode {
  Servo pusher;

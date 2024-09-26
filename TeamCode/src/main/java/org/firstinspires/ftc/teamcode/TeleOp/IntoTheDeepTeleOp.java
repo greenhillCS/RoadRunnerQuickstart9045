@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -36,26 +37,37 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     @Override
     public void runOpMode (){
 
+        //Mecanum Drive Class init
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(PositionStorage.pose);
+
+        //Drive Motor init
         DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
         DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "leftBack");
         DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
         DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rightBack");
-        DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
-        Servo clawServo = hardwareMap.get(Servo.class, "CS")
-        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor); //WHAT THE SIGMA
-
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        while (opModeIsActive()) {
-            double max;
 
+        //DC Motor init
+        DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
+
+        //Servo Motor init
+        Servo clawServo = hardwareMap.get(Servo.class, "CS");
+
+        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor); //WHAT THE SIGMA
+
+        //Drive Motor direction init
+        while (opModeIsActive()) {
+
+
+            //DRIVE CONTROLS vvvvv
+            double max;
             double axial = -gamepad1.left_stick_y;
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
-            telemetry.addData("yaw", yaw);
 
             // Calculate the target powers for each wheel
             double targetLeftFrontPower = axial + lateral + yaw;
@@ -80,7 +92,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
-//Machine that pokes eyes out
+            //DRIVE CONTROLS ^^^^^
+
+            //SLIDE CONTROLS vvvvv
             if (gamepad2.b){
                 slides.startPos();
             }else if (gamepad2.y) {
@@ -96,37 +110,56 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             } else {
                 slides.stop();
             }
+             //SLIDE CONTROLS ^^^^^
 
-
+            //CLAW CONTROLS vvvvv
             if (gamepad2.right_bumper) {
                 clawServo.setPosition(1);
             } else if (gamepad2.left_bumper) {
                 clawServo.setPosition(0);
             }
+            //CLAW CONTROLS ^^^^^
 
 
 
             telemetry.addData("Status", "Initialized");
             telemetry.update();
-            while (!isStopRequested()) {
-                if (gamepad1.x){
-                    telemetry.addData("returning:", "yes");
-                    drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
-                            .lineToSplineHeading(new Pose2d(0, 0, 0))
-                            .build());
-                }else {
-                    leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
-                    rightFrontDrive.setPower(rightFrontPower * MAX_SPEED);
-                    leftBackDrive.setPower(leftBackPower * MAX_SPEED);
-                    rightBackDrive.setPower(rightBackPower * MAX_SPEED);
-                }
-                drive.update();
-
-                telemetry.addData("Status", "Run Time: " + runtime.toString());
-                telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-                telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-                telemetry.update();
+            //WAYPOINT CONTROLS vvvvv
+            if (gamepad1.a){
+                telemetry.addData("Moving To:", "Ascent Zone");
+                drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
+                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .build());
+            } else if(gamepad1.b) {
+                telemetry.addData("Moving To:", "Net Zone");
+                drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
+                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .build());
+            } else if(gamepad1.x) {
+                telemetry.addData("Moving To:", "Submersible Zone");
+                drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
+                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .build());
+            } else if(gamepad1.y) {
+                telemetry.addData("Moving To:", "Observation Zone");
+                drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
+                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .build());
+            } else {
+                leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
+                rightFrontDrive.setPower(rightFrontPower * MAX_SPEED);
+                leftBackDrive.setPower(leftBackPower * MAX_SPEED);
+                rightBackDrive.setPower(rightBackPower * MAX_SPEED);
             }
+            //WAYPOINT CONTROLS ^^^^^
+
+            drive.update();
+
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.update();
+
 
 
             Pose2d poseEstimate = drive.getPoseEstimate();
