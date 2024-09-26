@@ -21,19 +21,16 @@ public class MeepMeepTesting {
         Image img = null;
         try { img = ImageIO.read(new File("C:\\Users\\sewakj27\\StudioProjects\\RoadRunnerQuickstart9045\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
         catch (IOException e) {}
-        double trackWidth = 16.33858;
+        double trackWidth = 17.785;
 
-        double botLength = 16.33858;
+        double botLength = 17.323;
 
-        double[] startingPos = {-36, 68-(botLength/2)};
+        double[] startingPos = {-12, 72-(botLength/2)};
         double startHeading = Math.toRadians(-90);
 
+        double pushDist = 55;
+
         MeepMeep meepMeep = new MeepMeep(800);
-        /*.lineToSplineHeading(new Pose2d(49, 36, Math.toRadians(180)))
-                                //drop arm
-                                .lineToConstantHeading(new Vector2d(0, 0))
-                                .lineToConstantHeading(new Vector2d(-59, 23.5))
-                                */
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -41,18 +38,23 @@ public class MeepMeepTesting {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(startingPos[0], startingPos[1], startHeading))
-                                .lineTo(new Vector2d(startingPos[0], startingPos[1] - 25))
-                                .turn(Math.toRadians(360))
-                                .lineToSplineHeading(new Pose2d(20, startingPos[1] - 25, Math.toRadians(-90)))
-                                .lineToSplineHeading(new Pose2d(48, startingPos[1] - 25, 0))
-                                .lineToSplineHeading(new Pose2d(30, startingPos[1] - 25, Math.toRadians(180)))
-                                .lineTo(new Vector2d(-61, startingPos[1] - 25))
-                                .lineTo(new Vector2d(10, startingPos[1] - 25))
-                                .lineTo(new Vector2d(48, startingPos[1] - 25))
-                                .lineTo(new Vector2d(48, startingPos[1] - 4))
-                                .lineTo(new Vector2d(60, startingPos[1] - 4))
+                        drive.trajectorySequenceBuilder(new Pose2d(12, 72-(trackWidth/2), Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(0, 24+(trackWidth/2), Math.toRadians(90)))
+                                // Raise slides to hang specimen
+                                .lineToSplineHeading(new Pose2d(36, 30+(trackWidth/2), Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(40, 12, Math.toRadians(68.7)))
+                                .lineTo(new Vector2d(58, 47))
+                                .lineTo(new Vector2d(46, pushDist))
+                                .lineTo(new Vector2d(46, 12))
+                                .lineTo(new Vector2d(56, 12))
+                                .lineTo(new Vector2d(56, pushDist))
+                                .lineTo(new Vector2d(56, 12))
+                                .lineTo(new Vector2d(61, 12))
+                                .lineTo(new Vector2d(61, pushDist))
+                                .lineToSplineHeading(new Pose2d(12, 0, Math.toRadians(180)))
                                 .build()
+
+
                 );
 
         // Set field image
