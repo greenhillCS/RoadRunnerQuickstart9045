@@ -28,11 +28,11 @@ public class IntoTheDeepSlides {
         }
     }
 
-    public void up(){
-        slideMotor.setPower(slowSpeed);
+    public void up(double triggerSpeed){
+        slideMotor.setPower(slowSpeed * triggerSpeed);
     }
-    public void down(){
-        slideMotor.setPower(-slowSpeed);
+    public void down(double triggerSpeed){
+        slideMotor.setPower(-slowSpeed * triggerSpeed);
     }
     public void hardPull(){
         slideMotor.setPower(-fastSpeed);
@@ -50,4 +50,7 @@ public class IntoTheDeepSlides {
     public void hangPos(){
         moveTo(hangPos);
     }
+
+
+
 }

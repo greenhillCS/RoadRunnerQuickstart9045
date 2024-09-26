@@ -13,9 +13,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+
 public class IntoTheDeepTeleOp extends LinearOpMode {
     private static final double ACCELERATION = 0.25;
-    private static final double MAX_SPEED = 0.75; // Adjust this value for your desired speed
+    private static final double MAX_SPEED = 1.0; // Adjust this value for your desired speed
 
     private double leftFrontPower = 0;
     private double rightFrontPower = 0;
@@ -41,8 +42,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
         DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rightBack");
         DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
-
-        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor);
+        Servo clawServo = hardwareMap.get(Servo.class, "CS")
+        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor); //WHAT THE SIGMA
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -79,13 +80,30 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
+//Machine that pokes eyes out
+            if (gamepad2.b){
+                slides.startPos();
+            }else if (gamepad2.y) {
+                slides.hookPos();
+            }
+            else if (gamepad2.right_trigger > 0){
+                slides.up(gamepad1.right_trigger);
+            } else if (gamepad2.left_trigger > 0) {
+                slides.down(gamepad2.left_trigger);
+            }
+             else if (gamepad2.dpad_down){
+                slides.hardPull();
+            } else {
+                slides.stop();
+            }
 
 
-            // Set motor powers with the reduced and accelerated values
-            leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
-            rightFrontDrive.setPower(rightFrontPower * MAX_SPEED);
-            leftBackDrive.setPower(leftBackPower * MAX_SPEED);
-            rightBackDrive.setPower(rightBackPower * MAX_SPEED);
+            if (gamepad2.right_bumper) {
+                clawServo.setPosition(1);
+            } else if (gamepad2.left_bumper) {
+                clawServo.setPosition(0);
+            }
+
 
 
             telemetry.addData("Status", "Initialized");
@@ -97,14 +115,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                             .lineToSplineHeading(new Pose2d(0, 0, 0))
                             .build());
                 }else {
-                    telemetry.addData("returning:", "nope");
-                    drive.setWeightedDrivePower(
-                            new Pose2d(
-                                    -gamepad1.left_stick_y,
-                                    -gamepad1.left_stick_x,
-                                    -gamepad1.right_stick_x
-                            )
-                    );
+                    leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
+                    rightFrontDrive.setPower(rightFrontPower * MAX_SPEED);
+                    leftBackDrive.setPower(leftBackPower * MAX_SPEED);
+                    rightBackDrive.setPower(rightBackPower * MAX_SPEED);
                 }
                 drive.update();
 
