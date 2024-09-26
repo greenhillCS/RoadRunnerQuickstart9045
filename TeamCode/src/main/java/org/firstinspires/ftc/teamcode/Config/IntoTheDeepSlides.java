@@ -10,12 +10,22 @@ public class IntoTheDeepSlides {
     private final double fastSpeed = 1.0;
     private final double reallySlowSpeed = 0.05;
     private final int hookPos = 100;
+    private final int hangPos = 120;
     private DcMotor slideMotor;
 
     public IntoTheDeepSlides(DcMotor motor){
         slideMotor = motor;
         slideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+    public void moveTo(int pos){
+        if (slideMotor.getCurrentPosition()!=pos){
+            slideMotor.setPower(reallySlowSpeed);
+            while (slideMotor.isBusy()){
+                continue;
+            }
+        }
     }
 
     public void up(){
@@ -24,23 +34,20 @@ public class IntoTheDeepSlides {
     public void down(){
         slideMotor.setPower(-slowSpeed);
     }
+    public void hardPull(){
+        slideMotor.setPower(-fastSpeed);
+    }
+    public void stop(){
+        slideMotor.setPower(0);
+    }
 
     public void startPos(){
-        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        if (slideMotor.getCurrentPosition()>0){
-            slideMotor.setPower(reallySlowSpeed);
-            while (slideMotor.getCurrentPosition()>0){
-                continue;
-            }
-        }
+        moveTo(0);
     }
     public void hookPos(){
-        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        if (slideMotor.getCurrentPosition()>hookPos){
-            slideMotor.setPower(reallySlowSpeed);
-            while (slideMotor.getCurrentPosition()>hookPos){
-                continue;
-            }
-        }
+        moveTo(hookPos);
+    }
+    public void hangPos(){
+        moveTo(hangPos);
     }
 }

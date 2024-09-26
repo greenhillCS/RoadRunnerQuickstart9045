@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class IntoTheDeepTeleOp extends LinearOpMode {
@@ -39,16 +40,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "leftBack");
         DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
         DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rightBack");
-        DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");  // Replace "YourLinearSlideMotorName" with the actual name of your linear slide motor
-        // Include the name of your linear slide motor here
-//        DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "IM");
-        // Change to SC
-        Servo droneServo = hardwareMap.get(Servo.class, "DS");  // Change to "SC"
-//        DcMotor actuatorMotor = hardwareMap.get(DcMotor.class, "AM");
-//        DcMotor fourBarMotor = hardwareMap.get(DcMotor.class, "FM");
-        Servo pixelServo = hardwareMap.get(Servo.class, "PS");
-        Servo wallServo = hardwareMap.get(Servo.class, "WS");
-        DcMotor droneMotor = hardwareMap.get(DcMotor.class, "DM");
+        DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
+
+        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor);
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
