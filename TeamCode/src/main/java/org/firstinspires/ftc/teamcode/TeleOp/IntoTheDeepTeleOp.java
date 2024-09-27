@@ -6,18 +6,20 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
+import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
+@TeleOp(group="intothedeep", name="IntoTheDeepTeleOp")
 public class IntoTheDeepTeleOp extends LinearOpMode {
     private static final double ACCELERATION = 0.25;
-    private static final double MAX_SPEED = 1.0; // Adjust this value for your desired speed
+    private static final double MAX_SPEED = 0.75; // Adjust this value for your desired speed
 
     private double leftFrontPower = 0;
     private double rightFrontPower = 0;
@@ -59,14 +61,16 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor); //WHAT THE SIGMA
 
+        waitForStart();
+
         //Drive Motor direction init
         while (opModeIsActive()) {
 
 
             //DRIVE CONTROLS vvvvv
             double max;
-            double axial = -gamepad1.left_stick_y;
-            double lateral = gamepad1.left_stick_x;
+            double axial = gamepad1.left_stick_y;
+            double lateral = -gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
 
             // Calculate the target powers for each wheel
@@ -120,30 +124,26 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             }
             //CLAW CONTROLS ^^^^^
 
-
-
-            telemetry.addData("Status", "Initialized");
-            telemetry.update();
             //WAYPOINT CONTROLS vvvvv
             if (gamepad1.a){
                 telemetry.addData("Moving To:", "Ascent Zone");
                 drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
-                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .lineToSplineHeading(new Pose2d(-13.75-(DriveConstants.BOT_LENGTH/2), -12, Math.toRadians(180)))
                         .build());
             } else if(gamepad1.b) {
                 telemetry.addData("Moving To:", "Net Zone");
                 drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
-                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .lineToSplineHeading(new Pose2d(-57.32, -57.32, Math.toRadians(45)))
                         .build());
             } else if(gamepad1.x) {
                 telemetry.addData("Moving To:", "Submersible Zone");
                 drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
-                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .lineToSplineHeading(new Pose2d(0, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90)))
                         .build());
             } else if(gamepad1.y) {
                 telemetry.addData("Moving To:", "Observation Zone");
                 drive.followTrajectory(drive.trajectoryBuilder(drive.getPoseEstimate())
-                        .lineToSplineHeading(new Pose2d(0, 0, 0))
+                        .lineToSplineHeading(new Pose2d(55, -59, Math.toRadians(90)))
                         .build());
             } else {
                 leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
@@ -155,17 +155,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             drive.update();
 
+            Pose2d pos = drive.getPoseEstimate();
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.update();
-
-
-
-            Pose2d poseEstimate = drive.getPoseEstimate();
-            telemetry.addData("x", poseEstimate.getX());
-            telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("X", pos.getX());
+            telemetry.addData("Y", pos.getY());
+            telemetry.addData("Heading", Math.toDegrees(pos.getHeading()));
             telemetry.update();
         }
 

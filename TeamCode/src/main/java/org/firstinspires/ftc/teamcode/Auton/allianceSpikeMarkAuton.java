@@ -20,7 +20,7 @@ public class allianceSpikeMarkAuton extends LinearOpMode {
         waitForStart();
 
         TrajectorySequence t = drive.trajectorySequenceBuilder(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90.00)))
-                .lineToSplineHeading(new Pose2d(5.4, -48+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90)))
+                .lineToSplineHeading(new Pose2d(5.4, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90)))
                 .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(-90)))
                 .lineToSplineHeading(new Pose2d(36, -13 , Math.toRadians(-90)))
                 .lineToSplineHeading(new Pose2d(46,-10, Math.toRadians(-90)))
@@ -30,7 +30,7 @@ public class allianceSpikeMarkAuton extends LinearOpMode {
                 .lineTo(new Vector2d(56, -57))
                 .lineToSplineHeading(new Pose2d(58, -10 , Math.toRadians(-90)))
                 .lineTo(new Vector2d(63, -10))
-                .lineTo(new Vector2d(63, -61))
+                .lineTo(new Vector2d(63, -57))
                 .build();
 
         drive.followTrajectorySequence(t);
