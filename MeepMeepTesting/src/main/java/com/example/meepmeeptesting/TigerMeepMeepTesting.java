@@ -18,7 +18,7 @@ public class TigerMeepMeepTesting {
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
         Image img = null;
-        try { img = ImageIO.read(new File("C:\\Users\\ZhaoT28\\StudioProjects\\RoadRunnerQuickstart9045Tiger\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
+        try { img = ImageIO.read(new File("C:\\Users\\ghelanin27\\StudioProjects\\RoadRunnerQuickstart9045\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png"));}
         catch (IOException e) {}
         double trackWidth = 16.33858;
 
