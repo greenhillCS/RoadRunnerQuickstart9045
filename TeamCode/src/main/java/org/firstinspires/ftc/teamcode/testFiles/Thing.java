@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.testFiles;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Config.GreenhillHardware;
 
 @TeleOp(group = "test", name = "thing")
-
+@Disabled
 public class Thing extends LinearOpMode {
  Servo pusher;
  DcMotor thrower;

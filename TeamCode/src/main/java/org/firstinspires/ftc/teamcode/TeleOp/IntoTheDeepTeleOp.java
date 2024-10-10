@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
 import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDriveCancelable;
 
 @TeleOp(group="intothedeep", name="IntoTheDeepTeleOp")
 public class IntoTheDeepTeleOp extends LinearOpMode {
@@ -26,13 +21,16 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
     Mode currentMode = Mode.DRIVER_CONTROL;
 
-    private static final double ACCELERATION = 0.25;
+    private static final double ACCELERATION = 0.2;
     private static final double MAX_SPEED = 0.75; // Adjust this value for your desired speed
 
     private double leftFrontPower = 0;
     private double rightFrontPower = 0;
     private double leftBackPower = 0;
     private double rightBackPower = 0;
+
+    public double x = 0,y = 0, h = 0;
+
     private double accelerate(double currentPower, double targetPower, double acceleration){
         if (currentPower < targetPower) {
             return Math.min(currentPower + acceleration, targetPower);
@@ -48,7 +46,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     public void runOpMode (){
 
         //Mecanum Drive Class init
-        SampleMecanumDriveCancelable drive = new SampleMecanumDriveCancelable(hardwareMap);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(PositionStorage.pose);
 
 
@@ -79,9 +77,13 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             //DRIVE CONTROLS vvvvv
             switch (currentMode) {
                 case DRIVER_CONTROL:
+                    x = drive.getPoseEstimate().getX();
+                    y = drive.getPoseEstimate().getY();
+                    h = drive.getPoseEstimate().getHeading();
+
                     double max;
-                    double axial = gamepad1.left_stick_y;
-                    double lateral = -gamepad1.left_stick_x;
+                    double axial = -gamepad1.left_stick_y;
+                    double lateral = gamepad1.left_stick_x;
                     double yaw = gamepad1.right_stick_x;
 
                     // Calculate the target powers for each wheel
@@ -110,12 +112,12 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     //DRIVE CONTROLS ^^^^^
 
                     //SLIDE CONTROLS vvvvv
-                    if (gamepad2.b) {
+                    if (gamepad2.b & !gamepad2.start) {
                         slides.startPos();
                     } else if (gamepad2.y) {
-                        slides.hookPos();
+                        slides.hookPosUp();
                     } else if (gamepad2.right_trigger > 0) {
-                        slides.up(gamepad1.right_trigger);
+                        slides.up(gamepad2.right_trigger);
                     } else if (gamepad2.left_trigger > 0) {
                         slides.down(gamepad2.left_trigger);
                     } else if (gamepad2.dpad_down) {
@@ -134,28 +136,68 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     //CLAW CONTROLS ^^^^^
 
                     //WAYPOINT CONTROLS vvvvv
-                    if (gamepad1.a) {
+                    if (gamepad1.a && !gamepad1.start) {
                         telemetry.addData("Moving To:", "Ascent Zone");
+                        if (y <= -24){
+                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+                                    .lineToSplineHeading(new Pose2d(-48, -36, Math.toRadians(0)))
+                                    .build());
+                        }
+                        if (y <= 24){
+                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+                                    .lineToSplineHeading(new Pose2d(-48, 36, Math.toRadians(0)))
+                                    .build());
+                        }
                         drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .lineToSplineHeading(new Pose2d(-13.75 - (DriveConstants.BOT_LENGTH / 2), -12, Math.toRadians(180)))
+                                .splineToLinearHeading(new Pose2d(-22.5, -12, h), Math.toRadians(0))
                                 .build());
-                    } else if (gamepad1.b) {
+                        while(gamepad1.a){
+                            continue;
+                        }
+                        currentMode = Mode.AUTOMATIC_CONTROL;
+                    } else if (gamepad1.b && !gamepad1.start) {
                         telemetry.addData("Moving To:", "Net Zone");
                         drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .lineToSplineHeading(new Pose2d(-57.32, -57.32, Math.toRadians(45)))
+                                .lineToSplineHeading(new Pose2d(-51.5, -53, Math.toRadians(225)))
                                 .build());
+                        while(gamepad1.b){
+                            continue;
+                        }
+                        currentMode = Mode.AUTOMATIC_CONTROL;
                     } else if (gamepad1.x) {
                         telemetry.addData("Moving To:", "Submersible Zone");
+                        if (y >= -36 && x < 0){
+                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+                                    .lineToSplineHeading(new Pose2d(-36, -36, Math.toRadians(90)))
+                                    .build());
+                        } else if (y >= -36 && x > 0){
+                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+                                    .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(90)))
+                                    .build());
+                        }
                         drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .lineToSplineHeading(new Pose2d(0, -24 - (DriveConstants.BOT_LENGTH / 2), Math.toRadians(-90)))
+                                .lineToSplineHeading(new Pose2d(0, -32, Math.toRadians(90)))
                                 .build());
+                        while(gamepad1.x){
+                            continue;
+                        }
+                        currentMode = Mode.AUTOMATIC_CONTROL;
                     } else if (gamepad1.y) {
                         telemetry.addData("Moving To:", "Observation Zone");
+                        if (y >= -24 && x < 0){
+                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+                                    .lineToSplineHeading(new Pose2d(-48, -36, Math.toRadians(225)))
+                                    .build());
+                        }
                         drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .lineToSplineHeading(new Pose2d(55, -59, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(52, -50, Math.toRadians(270)))
                                 .build());
+                        while(gamepad1.y){
+                            continue;
+                        }
+                        currentMode = Mode.AUTOMATIC_CONTROL;
                     } else if (gamepad1.dpad_up){
-                        drive.setPoseEstimate(new Pose2d(0, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90)));
+                        drive.setPoseEstimate(new Pose2d(0, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)));
                     } else {
                         leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
                         rightFrontDrive.setPower(rightFrontPower * MAX_SPEED);
@@ -166,7 +208,15 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 case AUTOMATIC_CONTROL:
                     if(gamepad1.a||gamepad1.b||gamepad1.x||gamepad1.y){
                         drive.breakFollowing();
+                        while (gamepad1.a||gamepad1.b||gamepad1.x||gamepad1.y){
+                            continue;
+                        }
+                        currentMode = Mode.DRIVER_CONTROL;
                     }
+                    if (!drive.isBusy()) {
+                        currentMode = Mode.DRIVER_CONTROL;
+                    }
+                    break;
             }
                 //WAYPOINT CONTROLS ^^^^^}
 
@@ -179,6 +229,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.addData("X", pos.getX());
             telemetry.addData("Y", pos.getY());
+            telemetry.addData("Right Trigger", gamepad2.right_trigger);
             telemetry.addData("Heading", Math.toDegrees(pos.getHeading()));
             telemetry.update();
         }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.testFiles;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(group="test", name = "Drone Test Tiger")
+@Disabled
 public class TigerTestTeleop extends LinearOpMode {
 
     @Override

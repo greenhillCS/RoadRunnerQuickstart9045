@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.testFiles;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(group="test", name="Rocket League OpMode")
+@Disabled
 public class TestTeleOp extends LinearOpMode{
     private final ElapsedTime runtime = new ElapsedTime();
 
