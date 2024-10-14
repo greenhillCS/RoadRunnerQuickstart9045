@@ -38,20 +38,13 @@ public class MeepMeepTesting {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(12, 72-(trackWidth/2), Math.toRadians(90)))
-                                .lineToSplineHeading(new Pose2d(0, 24+(trackWidth/2), Math.toRadians(90)))
-                                // Raise slides to hang specimen
-                                .lineToSplineHeading(new Pose2d(36, 30+(trackWidth/2), Math.toRadians(90)))
-                                .lineToSplineHeading(new Pose2d(40, 12, Math.toRadians(68.7)))
-                                .lineTo(new Vector2d(58, 47))
-                                .lineTo(new Vector2d(46, pushDist))
-                                .lineTo(new Vector2d(46, 12))
-                                .lineTo(new Vector2d(56, 12))
-                                .lineTo(new Vector2d(56, pushDist))
-                                .lineTo(new Vector2d(56, 12))
-                                .lineTo(new Vector2d(61, 12))
-                                .lineTo(new Vector2d(61, pushDist))
-                                .lineToSplineHeading(new Pose2d(12, 0, Math.toRadians(180)))
+                        drive.trajectorySequenceBuilder(new Pose2d())
+                                .lineTo(new Vector2d(12, 12))
+                                .lineToSplineHeading(new Pose2d(12, -12, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(180)))
+                                .lineToSplineHeading(new Pose2d(-12, 12, Math.toRadians(270)))
+                                .lineToSplineHeading(new Pose2d(12, 12, Math.toRadians(0)))
+                                .lineTo(new Vector2d(0, 0))
                                 .build()
 
 

@@ -27,8 +27,6 @@ public class allianceSpikeMarkAuton extends LinearOpMode {
 
         clawServo.setPosition(1);
 
-        waitForStart();
-
         TrajectorySequence t1 = drive.trajectorySequenceBuilder(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)))
                 .splineTo(new Vector2d(0, -26-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
                 .build();
@@ -51,21 +49,30 @@ public class allianceSpikeMarkAuton extends LinearOpMode {
                 .lineTo(new Vector2d(60, -57))
                 .build();
 
-        drive.followTrajectorySequence(t1);
-        slides.hookPosUp();
-        while(slideMotor.isBusy() & opModeIsActive()){
-            continue;
-        }
-        drive.followTrajectorySequence(t2);
-        slides.hookPosDown();
-        while(slideMotor.isBusy() & opModeIsActive()){
-            continue;
-        }
-        clawServo.setPosition(0);
-        drive.followTrajectorySequence(t3);
-        slides.startPos();
+        waitForStart();
 
+        while (opModeIsActive()) {
+            drive.followTrajectorySequence(t1);
 
-        PositionStorage.pose = drive.getPoseEstimate();
+            slides.hookPosUp();
+            while (slideMotor.isBusy() & slides.runTime.seconds() < slides.timeOutSecs) {
+                continue;
+            }
+
+            drive.followTrajectorySequence(t2);
+
+            slides.hookPosDown();
+            while (slideMotor.isBusy() & slides.runTime.seconds() < slides.timeOutSecs) {
+                continue;
+            }
+            clawServo.setPosition(0);
+
+            drive.followTrajectorySequence(t3);
+            
+            slides.startPos();
+
+            PositionStorage.pose = drive.getPoseEstimate();
+            break;
+        }
     }
 }

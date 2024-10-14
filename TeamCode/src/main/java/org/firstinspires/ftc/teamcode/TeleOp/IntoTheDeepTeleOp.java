@@ -61,12 +61,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         //DC Motor init
-        DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
+        DcMotor scoringMotor = hardwareMap.get(DcMotor.class, "SM");
+        DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
 
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
 
-        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor); //WHAT THE SIGMA
+        IntoTheDeepSlides scorer = new IntoTheDeepSlides(scoringMotor);
+        IntoTheDeepSlides hangar = new IntoTheDeepSlides(hangingMotor);//WHAT THE SIGMA
 
         waitForStart();
 
@@ -111,21 +113,35 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     }
                     //DRIVE CONTROLS ^^^^^
 
-                    //SLIDE CONTROLS vvvvv
-                    if (gamepad2.b & !gamepad2.start) {
-                        slides.startPos();
-                    } else if (gamepad2.y) {
-                        slides.hookPosUp();
-                    } else if (gamepad2.right_trigger > 0) {
-                        slides.up(gamepad2.right_trigger);
-                    } else if (gamepad2.left_trigger > 0) {
-                        slides.down(gamepad2.left_trigger);
-                    } else if (gamepad2.dpad_down) {
-                        slides.hardPull();
+                    //HANGING SLIDE CONTROLS vvvvv
+                    if (gamepad1.dpad_left) {
+                        hangar.startPos();
+                    } else if (gamepad1.right_trigger > 0) {
+                        hangar.up(gamepad2.right_trigger);
+                    } else if (gamepad1.left_trigger > 0) {
+                        hangar.down(gamepad1.left_trigger);
+                    } else if (gamepad1.dpad_down) {
+                        hangar.hardPull();
                     } else {
-                        slides.stop();
+                        hangar.stop();
                     }
-                    //SLIDE CONTROLS ^^^^^
+                    //HANGING SLIDE CONTROLS ^^^^^
+
+                    //SCORING SLIDE CONTROLS vvvvv
+                    if (gamepad2.b & !gamepad2.start) {
+                        scorer.startPos();
+                    } else if (gamepad2.y) {
+                        scorer.hookPosUp();
+                    } else if (gamepad2.right_trigger > 0) {
+                        scorer.up(gamepad2.right_trigger);
+                    } else if (gamepad2.left_trigger > 0) {
+                        scorer.down(gamepad2.left_trigger);
+                    } else if (gamepad2.dpad_down) {
+                        scorer.hardPull();
+                    } else {
+                        scorer.stop();
+                    }
+                    //SCORING SLIDE CONTROLS ^^^^^
 
                     //CLAW CONTROLS vvvvv
                     if (gamepad2.right_bumper) {

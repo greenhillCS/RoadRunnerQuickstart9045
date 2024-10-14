@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Config;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class IntoTheDeepSlides {
     private final double slowSpeed = 0.75;
@@ -10,6 +11,8 @@ public class IntoTheDeepSlides {
     private final int hookPos1 = 1550;
     private final int hookPos2 = 800;
     private final int hangPos = 0;
+    public int timeOutSecs = 4;
+    public ElapsedTime runTime = new ElapsedTime();
     private DcMotor slideMotor;
 
     public IntoTheDeepSlides(DcMotor motor){
@@ -24,7 +27,8 @@ public class IntoTheDeepSlides {
             slideMotor.setTargetPosition(pos);
             slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             slideMotor.setPower(fastSpeed);
-            while (slideMotor.isBusy()){
+            runTime.reset();
+            while (slideMotor.isBusy() & runTime.seconds() < timeOutSecs){
                 continue;
             }
             slideMotor.setPower(0);
