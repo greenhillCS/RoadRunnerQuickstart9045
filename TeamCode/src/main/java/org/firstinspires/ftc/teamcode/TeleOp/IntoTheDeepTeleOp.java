@@ -44,7 +44,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
         Servo clawServo = hardwareMap.get(Servo.class, "CS")
         IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor); //WHAT THE SIGMA
-
+        Servo intakeServo = hardwareMap.get(Servo.class, "servo")
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -102,6 +102,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 clawServo.setPosition(1);
             } else if (gamepad2.left_bumper) {
                 clawServo.setPosition(0);
+            }
+
+            if (gamepad2.dpad_left){
+                intakeServo.setPosition(1);
+            } else if (gamepad2.dpad_right) {
+                intakeServo.setPosition(-1);
+            } else {
+                intakeServo.setPosition(0);
             }
 
 
