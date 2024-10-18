@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
+import org.firstinspires.ftc.teamcode.Config.PixelRelease;
 import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -31,6 +32,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
     public double x = 0,y = 0, h = 0;
 
+    private ElapsedTime time = new ElapsedTime();
+
+    PixelRelease clawController;
+    Servo clawServo;
+
+    IntoTheDeepSlides scorer;
+    IntoTheDeepSlides hangar;
+
     private double accelerate(double currentPower, double targetPower, double acceleration){
         if (currentPower < targetPower) {
             return Math.min(currentPower + acceleration, targetPower);
@@ -40,6 +49,20 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         return targetPower;
     }
     private final ElapsedTime runtime = new ElapsedTime();
+
+    private void moveClawWait(int pos){
+        scorer.emergencyStop();
+        clawServo.setPosition(pos);
+        time.reset();
+        while(opModeIsActive() && time.seconds() < 0.5){
+            continue;
+        }
+        if (pos==1) {
+            scorer.hookPosUp();
+        } else {
+            scorer.startPos();
+        }
+    }
 
 
     @Override
@@ -65,10 +88,11 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
 
         //Servo Motor init
-        Servo clawServo = hardwareMap.get(Servo.class, "CS");
+        clawServo = hardwareMap.get(Servo.class, "CS");
+        clawController = new PixelRelease();
 
-        IntoTheDeepSlides scorer = new IntoTheDeepSlides(scoringMotor);
-        IntoTheDeepSlides hangar = new IntoTheDeepSlides(hangingMotor);//WHAT THE SIGMA
+        scorer = new IntoTheDeepSlides(scoringMotor);
+        hangar = new IntoTheDeepSlides(hangingMotor);//WHAT THE SIGMA
 
         waitForStart();
 
@@ -117,7 +141,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     if (gamepad1.dpad_left) {
                         hangar.startPos();
                     } else if (gamepad1.right_trigger > 0) {
-                        hangar.up(gamepad2.right_trigger);
+                        hangar.up(gamepad1.right_trigger);
                     } else if (gamepad1.left_trigger > 0) {
                         hangar.down(gamepad1.left_trigger);
                     } else if (gamepad1.dpad_down) {
@@ -128,15 +152,18 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     //HANGING SLIDE CONTROLS ^^^^^
 
                     //SCORING SLIDE CONTROLS vvvvv
-                    if (gamepad2.b & !gamepad2.start) {
-                        scorer.startPos();
+                    if (gamepad2.a && !gamepad2.start) {
+                        moveClawWait(0);
                     } else if (gamepad2.y) {
-                        scorer.hookPosUp();
+                        moveClawWait(1);
                     } else if (gamepad2.right_trigger > 0) {
+                        scorer.emergencyStop();
                         scorer.up(gamepad2.right_trigger);
                     } else if (gamepad2.left_trigger > 0) {
+                        scorer.emergencyStop();
                         scorer.down(gamepad2.left_trigger);
                     } else if (gamepad2.dpad_down) {
+                        scorer.emergencyStop();
                         scorer.hardPull();
                     } else {
                         scorer.stop();
@@ -145,8 +172,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
                     //CLAW CONTROLS vvvvv
                     if (gamepad2.right_bumper) {
+                        scorer.emergencyStop();
                         clawServo.setPosition(1);
                     } else if (gamepad2.left_bumper) {
+                        scorer.emergencyStop();
                         clawServo.setPosition(0);
                     }
                     //CLAW CONTROLS ^^^^^

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -28,6 +29,8 @@ public class RobotFunctionTest extends LinearOpMode {
 
         Servo claw = hardwareMap.get(Servo.class, "CS");
 
+        ElapsedTime time = new ElapsedTime();
+
         TrajectorySequence testTrajectory = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineTo(new Vector2d(12, 12))
                 .lineToSplineHeading(new Pose2d(12, -12, Math.toRadians(90)))
@@ -42,7 +45,15 @@ public class RobotFunctionTest extends LinearOpMode {
         while (opModeIsActive()){
             for (int i = 0;i<1;i++) {
                 claw.setPosition(0);
+                time.reset();
+                while(opModeIsActive() && time.seconds() < 2){
+                    continue;
+                }
                 claw.setPosition(1);
+                time.reset();
+                while(opModeIsActive() && time.seconds() < 2){
+                    continue;
+                }
             }
             for (int i = 0;i<1;i++) {
                 scorer.hookPosUp();
