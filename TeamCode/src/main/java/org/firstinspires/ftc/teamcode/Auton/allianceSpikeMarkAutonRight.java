@@ -21,12 +21,15 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
         DcMotor slideMotor = hardwareMap.get(DcMotor.class, "SM");
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
 
-        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor);
+        IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor, telemetry);
 
         drive.setPoseEstimate(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)));
 
         clawServo.setPosition(1);
-        slides.moveTo(10);
+        slides.moveToWait(10);
+        while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive()) {
+            continue;
+        }
 
         TrajectorySequence t1 = drive.trajectorySequenceBuilder(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)))
                 .splineTo(new Vector2d(0, -26-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
@@ -54,22 +57,23 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
 
         while (opModeIsActive()) {
             drive.followTrajectorySequence(t1);
-            slides.hookPosUp();
+            slides.moveToWait(slides.hookPos1);
             while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive()) {
                 continue;
             }
 
             drive.followTrajectorySequence(t2);
 
-            slides.hookPosDown();
+            slides.moveToWait(slides.hookPos2);
             while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive()) {
                 continue;
             }
             clawServo.setPosition(0);
 
             drive.followTrajectorySequence(t3);
+
             
-            slides.startPos();
+            slides.moveToWait(0);
 
             PositionStorage.pose = drive.getPoseEstimate();
             break;

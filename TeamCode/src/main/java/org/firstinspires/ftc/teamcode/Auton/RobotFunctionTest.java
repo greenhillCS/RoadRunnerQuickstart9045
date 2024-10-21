@@ -24,8 +24,8 @@ public class RobotFunctionTest extends LinearOpMode {
         DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
         DcMotor scoringMotor = hardwareMap.get(DcMotor.class, "SM");
 
-        IntoTheDeepSlides hangar = new IntoTheDeepSlides(hangingMotor);
-        IntoTheDeepSlides scorer = new IntoTheDeepSlides(scoringMotor);
+        IntoTheDeepSlides hangar = new IntoTheDeepSlides(hangingMotor, telemetry);
+        IntoTheDeepSlides scorer = new IntoTheDeepSlides(scoringMotor, telemetry);
 
         Servo claw = hardwareMap.get(Servo.class, "CS");
 
@@ -56,24 +56,24 @@ public class RobotFunctionTest extends LinearOpMode {
                 }
             }
             for (int i = 0;i<1;i++) {
-                scorer.hookPosUp();
+                scorer.moveToWait(scorer.hookPos1);
                 while (scoringMotor.isBusy() & scorer.runTime.seconds() < scorer.timeOutSecs) {
                     telemetry.addData("Running: ", "Scoring Slides");
                     telemetry.update();
                 }
-                scorer.startPos();
+                scorer.moveToWait(0);
                 while (scoringMotor.isBusy() & scorer.runTime.seconds() < scorer.timeOutSecs) {
                     telemetry.addData("Running: ", "Scoring Slides");
                     telemetry.update();
                 }
             }
             for (int i = 0;i<1;i++) {
-                hangar.hookPosUp();
+                hangar.moveToWait(scorer.hookPos2);
                 while (scoringMotor.isBusy() & scorer.runTime.seconds() < scorer.timeOutSecs) {
                     telemetry.addData("Running: ", "Hanging Slides");
                     telemetry.update();
                 }
-                hangar.startPos();
+                hangar.moveToWait(0);
                 while (scoringMotor.isBusy() & scorer.runTime.seconds() < scorer.timeOutSecs) {
                     telemetry.addData("Running: ", "Hanging Slides");
                     telemetry.update();

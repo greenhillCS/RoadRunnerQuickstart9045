@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Config;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class IntoTheDeepIntakeSystem {
@@ -16,9 +17,9 @@ public class IntoTheDeepIntakeSystem {
         slides = s;
         intake = i;
     }
-    public void update(double rx, double ry, double lx, double ly){
-        intake.setPower(ly);
-        slides.setPower(rx * slidesMax);
-        joint.setPower(ry * jointMax);
+    public void update(Gamepad gamepad){
+        intake.setPower(gamepad.left_stick_y);
+        slides.setPower(gamepad.right_stick_x * slidesMax);
+        joint.setPower(gamepad.right_stick_y * jointMax);
     }
 }

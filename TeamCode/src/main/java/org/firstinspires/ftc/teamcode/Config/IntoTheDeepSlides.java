@@ -4,55 +4,77 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadConfigMenu;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class IntoTheDeepSlides {
     private final double slowSpeed = 0.75;
     private final double fastSpeed = 1.0;
     private final double reallySlowSpeed = 0.75;
-    private final int hookPos1 = 1600;
-    private final int hookPos2 = 800;
-    private final int hangPos = 0;
+    public final int hookPos1 = 1600;
+    public final int hookPos2 = 800;
+    public final int hangPos = 0;
     public int timeOutSecs = 4;
     public ElapsedTime runTime = new ElapsedTime();
     private DcMotor slideMotor;
-    private boolean Estop = false;
+    private int targetPos = 0;
+    private int t = 1;
+    private Telemetry telemetry;
 
-    public IntoTheDeepSlides(DcMotor motor){
+    public IntoTheDeepSlides(DcMotor motor, Telemetry te){
+        telemetry = te;
         slideMotor = motor;
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public void moveTo(int pos){
+    public void moveToWait(int pos){
         if (slideMotor.getCurrentPosition()!=pos){
-            Estop = false;
             slideMotor.setTargetPosition(pos);
             slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             slideMotor.setPower(fastSpeed);
             runTime.reset();
-            while (slideMotor.isBusy() && runTime.seconds() < timeOutSecs && !Estop){
+            while (slideMotor.isBusy() && runTime.seconds() < timeOutSecs){
                 continue;
             }
             slideMotor.setPower(0);
             slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            Estop = false;
         }
     }
-    public void emergencyStop(){
-        Estop = true;
+    public void moveTo(int pos){
+        if (slideMotor.getCurrentPosition()!=pos){
+            t = pos;
+            slideMotor.setTargetPosition(pos);
+            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            slideMotor.setPower(fastSpeed);
+        }
     }
 
     public void up(double triggerSpeed){
-        slideMotor.setPower(slowSpeed * triggerSpeed);
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideMotor.setPower(fastSpeed*triggerSpeed);
     }
     public void down(double triggerSpeed){
-        if(slideMotor.getCurrentPosition()!=0){slideMotor.setPower(-slowSpeed * triggerSpeed);}
+        if(slideMotor.getCurrentPosition()!=0){
+            slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            slideMotor.setPower(-fastSpeed*triggerSpeed);
+        }
     }
     public void hardPull(){
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setPower(-fastSpeed);
     }
-    public void stop(){
-        slideMotor.setPower(0);
+    public void stop(){;
+        if (t == slideMotor.getCurrentPosition() || t == 1) {
+            t = 1;
+            telemetry.addData("Stopping", "Yes");
+            slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            slideMotor.setPower(0.001);
+        }
+        else{
+            telemetry.addData("Stopping", "No");
+        }
     }
 
     public void startPos(){
