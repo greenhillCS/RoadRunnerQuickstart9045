@@ -8,18 +8,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class IntoTheDeepIntakeSystem {
     DcMotor joint;
     DcMotor slides;
-    CRServo intake;
 
     double jointMax = 1.0;
     double slidesMax = 1.0;
-    public IntoTheDeepIntakeSystem(DcMotor j, DcMotor s, CRServo i){
+    public IntoTheDeepIntakeSystem(DcMotor j, DcMotor s){
         joint = j;
+        joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slides = s;
-        intake = i;
+        slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void update(Gamepad gamepad){
-        intake.setPower(gamepad.left_stick_y);
-        slides.setPower(gamepad.right_stick_x * slidesMax);
-        joint.setPower(gamepad.right_stick_y * jointMax);
+        if (gamepad.right_stick_y != 0) {
+            slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
+        } else{
+            slides.setPower(0);
+        }
+        joint.setPower(-gamepad.left_stick_y * jointMax);
     }
 }

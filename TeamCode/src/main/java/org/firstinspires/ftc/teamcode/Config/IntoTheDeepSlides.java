@@ -70,7 +70,7 @@ public class IntoTheDeepSlides {
             t = 1;
             telemetry.addData("Stopping", "Yes");
             slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            slideMotor.setPower(0.001);
+            slideMotor.setPower(0.0001);
         }
         else{
             telemetry.addData("Stopping", "No");
