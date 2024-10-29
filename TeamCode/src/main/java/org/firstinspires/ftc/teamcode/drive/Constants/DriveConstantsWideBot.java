@@ -85,8 +85,8 @@ public class DriveConstantsWideBot {
     public static double LATERAL_DISTANCE = 12; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = 2.75; // in; offset of the lateral wheel
 
-    public static double X_MULTIPLIER = 0.4968; //0.4968732578591515
-    public static double Y_MULTIPLIER = 0.4969; //0.4965657004143827
+    public static double X_MULTIPLIER = 0.49886952602; //0.4968732578591515
+    public static double Y_MULTIPLIER = 0.5015386489265281703511845268162; //0.4965657004143827
 
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
