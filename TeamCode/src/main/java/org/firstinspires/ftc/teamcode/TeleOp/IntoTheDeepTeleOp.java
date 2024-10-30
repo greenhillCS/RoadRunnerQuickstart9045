@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -253,9 +254,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
                     //CLAW CONTROLS vvvvv
                     if (gamepad2.x) {
-                        clawServo.setPosition(1);
-                    } else if (gamepad2.a) {
                         clawServo.setPosition(0);
+                    } else if (gamepad2.a) {
+                        clawServo.setPosition(1);
                     }
                     //CLAW CONTROLS ^^^^^
 

@@ -25,7 +25,6 @@ public class IntoTheDeepSlides {
         telemetry = te;
         slideMotor = motor;
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
@@ -65,16 +64,18 @@ public class IntoTheDeepSlides {
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setPower(-fastSpeed);
     }
-    public void stop(){;
-        if (t == slideMotor.getCurrentPosition() || t == 1) {
-            t = 1;
-            telemetry.addData("Stopping", "Yes");
-            slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            slideMotor.setPower(0.0001);
-        }
-        else{
-            telemetry.addData("Stopping", "No");
-        }
+    public void stop(){
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideMotor.setPower(0.000);
+//        if (t == slideMotor.getCurrentPosition() || t == 1) {
+//            t = 1;
+//            telemetry.addData("Stopping", "Yes");
+//            slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            slideMotor.setPower(0.000);
+//        }
+//        else{
+//            telemetry.addData("Stopping", "No");
+//        }
     }
 
     public void startPos(){
