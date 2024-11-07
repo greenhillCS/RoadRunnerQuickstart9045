@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group="intothedeep", name="allianceSpikeMarkAutonRight")
+@Autonomous(group="intothedeep", name="alliance SpikeMark AutonRight")
 public class allianceSpikeMarkAutonRight extends LinearOpMode {
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -26,8 +27,8 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)));
 
         clawServo.setPosition(1);
-        slides.moveToWait(10);
-        while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive()) {
+        slides.moveToWait(-10);
+        while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive() && !isStopRequested()) {
             continue;
         }
 
@@ -42,29 +43,29 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
         TrajectorySequence t3 = drive.trajectorySequenceBuilder(t2.end())
                 .back(3)
                 .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(90)))
-                .lineToSplineHeading(new Pose2d(36, -13 , Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(36, -10 , Math.toRadians(90)))
                 .lineToSplineHeading(new Pose2d(46,-10, Math.toRadians(90)))
-                .lineTo(new Vector2d(47, -57))
-                .lineTo(new Vector2d(47, -10))
+                .lineTo(new Vector2d(46, -57))
+                .lineTo(new Vector2d(46, -10))
                 .lineToSplineHeading(new Pose2d(56, -10 , Math.toRadians(90)))
                 .lineTo(new Vector2d(56, -57))
-                .lineToSplineHeading(new Pose2d(58, -10 , Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(56, -10 , Math.toRadians(90)))
                 .lineTo(new Vector2d(60, -10))
                 .lineTo(new Vector2d(60, -57))
                 .build();
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !isStopRequested()) {
             drive.followTrajectorySequence(t1);
-            slides.moveToWait(slides.hookPos1);
+            slides.moveToWait(slides.hookPos1 * -1);
             while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive()) {
                 continue;
             }
 
             drive.followTrajectorySequence(t2);
 
-            slides.moveToWait(slides.hookPos2);
+            slides.moveToWait(slides.hookPos2 * -1);
             while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive()) {
                 continue;
             }

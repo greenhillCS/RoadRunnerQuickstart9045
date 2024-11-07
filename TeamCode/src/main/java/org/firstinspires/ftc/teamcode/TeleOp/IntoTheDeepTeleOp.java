@@ -244,9 +244,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         }
                         scorer.hookPosUp();
                     } else if (gamepad2.right_trigger > 0) {
-                        scorer.up(gamepad2.right_trigger);
+                        scorer.down(gamepad2.right_trigger);
                     } else if (gamepad2.left_trigger > 0) {
-                        scorer.down(gamepad2.left_trigger);
+                        scorer.up(gamepad2.left_trigger);
                     }else {
                         scorer.stop();
                     }

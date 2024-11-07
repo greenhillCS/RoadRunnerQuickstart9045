@@ -32,9 +32,12 @@ public class IntoTheDeepSlides {
         if (slideMotor.getCurrentPosition()!=pos){
             slideMotor.setTargetPosition(pos);
             slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            slideMotor.setPower(fastSpeed);
+            slideMotor.setPower(fastSpeed * -1);
             runTime.reset();
             while (slideMotor.isBusy() && runTime.seconds() < timeOutSecs){
+                telemetry.addData("Enc Pos", slideMotor.getCurrentPosition());
+                telemetry.addData("Target Pos", pos);
+                telemetry.update();
                 continue;
             }
             slideMotor.setPower(0);
@@ -82,13 +85,13 @@ public class IntoTheDeepSlides {
         moveTo(0);
     }
     public void hookPosUp(){
-        moveTo(hookPos1);
+        moveTo(-hookPos1);
     }
     public void hookPosDown(){
-        moveTo(hookPos2);
+        moveTo(-hookPos2);
     }
     public void hangPos(){
-        moveTo(hangPos);
+        moveTo(-hangPos);
     }
 
 
