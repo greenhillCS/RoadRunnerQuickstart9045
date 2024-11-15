@@ -41,6 +41,7 @@ public class IntoTheDeepSlides {
                 isSlideDown = touchSensor.isPressed();
                 slideMotor.setPower(0.2);
             }
+            slideMotor.setPower(0);
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
