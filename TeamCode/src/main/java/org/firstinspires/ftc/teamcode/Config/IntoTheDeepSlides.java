@@ -40,7 +40,9 @@ public class IntoTheDeepSlides {
             while (!isSlideDown) {
                 isSlideDown = touchSensor.isPressed();
                 slideMotor.setPower(0.2);
+                telemetry.addData("Is Slide Down", isSlideDown);
             }
+            telemetry.addData("Is Slide Down", isSlideDown);
             slideMotor.setPower(0);
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
@@ -104,7 +106,8 @@ public class IntoTheDeepSlides {
         while (!isSlideDown) {
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             isSlideDown = touchSensor.isPressed();
-            slideMotor.setPower(-0.2);
+            slideMotor.setPower(0.2);
+            telemetry.addData("Is Slide Down", isSlideDown);
         }
     }
     public void hookPosUp(){
