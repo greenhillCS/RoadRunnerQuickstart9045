@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Config;
 
 import android.text.method.Touch;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -23,22 +24,24 @@ public class IntoTheDeepSlides {
     private int targetPos = 0;
     private int t = 1;
     private Telemetry telemetry;
-    private TouchSensor touchSensor;
+    private RevTouchSensor touchSensor;
     public boolean isSlideDown = false;
 
 
 
-    public IntoTheDeepSlides(DcMotor motor, Telemetry te, TouchSensor touch){
+    public IntoTheDeepSlides(DcMotor motor, Telemetry te, RevTouchSensor touch) {
         touchSensor = touch;
         telemetry = te;
         slideMotor = motor;
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        while (!isSlideDown) {
+        if (touch != null){
+            while (!isSlideDown) {
+                isSlideDown = touchSensor.isPressed();
+                slideMotor.setPower(0.2);
+            }
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            isSlideDown = touchSensor.isPressed();
-            slideMotor.setPower(-0.2);
         }
     }
     public void moveToWait(int pos){

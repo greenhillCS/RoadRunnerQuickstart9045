@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -84,9 +85,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
         CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
+        RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
 
-        scorer = new IntoTheDeepSlides(scoringMotor, telemetry);
-        hangar = new IntoTheDeepSlides(hangingMotor, telemetry);
+        scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
+        hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
         intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor);//WHAT THE SIGMA
 
         waitForStart();

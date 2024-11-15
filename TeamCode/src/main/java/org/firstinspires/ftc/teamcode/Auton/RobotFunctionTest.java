@@ -24,8 +24,8 @@ public class RobotFunctionTest extends LinearOpMode {
         DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
         DcMotor scoringMotor = hardwareMap.get(DcMotor.class, "SM");
 
-        IntoTheDeepSlides hangar = new IntoTheDeepSlides(hangingMotor, telemetry);
-        IntoTheDeepSlides scorer = new IntoTheDeepSlides(scoringMotor, telemetry);
+        IntoTheDeepSlides hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
+        IntoTheDeepSlides scorer = new IntoTheDeepSlides(scoringMotor, telemetry, null);
 
         Servo claw = hardwareMap.get(Servo.class, "CS");
 
