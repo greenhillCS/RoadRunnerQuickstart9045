@@ -34,8 +34,8 @@ public class DriveConstantsComp {
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 19.55; // in
-    public static double BOT_LENGTH = 18;
+    public static double TRACK_WIDTH = 20; // in
+    public static double BOT_LENGTH = 17.5;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -43,8 +43,8 @@ public class DriveConstantsComp {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double MAX_VEL = 64;
-    public static double MAX_ACCEL = 64;
+    public static double MAX_VEL = 40; //64
+    public static double MAX_ACCEL = 40; //64
     public static double MAX_ANG_VEL = 1.8085484490444828;
     public static double MAX_ANG_ACCEL = Math.toRadians(90);
 
@@ -60,8 +60,8 @@ public class DriveConstantsComp {
      * inches.
      */
 
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 3, 2);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 2, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(15, 4, 1);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(13, 0, 0);
 
     public static double LATERAL_MULTIPLIER = 2.50;
 
@@ -70,7 +70,7 @@ public class DriveConstantsComp {
     public static double OMEGA_WEIGHT = 1;
 
     public static double LATERAL_DISTANCE = 12.656224630957528; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 4; // in; offset of the lateral wheel
+    public static double FORWARD_OFFSET = 0; // in; offset of the lateral wheel
 
     public static double X_MULTIPLIER = 0.49886952602; //0.4968732578591515
     public static double Y_MULTIPLIER = 0.5015386489265281703511845268162;
@@ -80,7 +80,7 @@ public class DriveConstantsComp {
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
 
     public static double encoderTicksToInches(double ticks) {

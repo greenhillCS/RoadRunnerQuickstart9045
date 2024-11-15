@@ -34,8 +34,8 @@ public class DriveConstantsCompTiger {
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 17.06; // in
-    public static double BOT_LENGTH = 18;
+    public static double TRACK_WIDTH = 19.55; // in
+    public static double BOT_LENGTH = 17.5;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -44,8 +44,8 @@ public class DriveConstantsCompTiger {
      * empirically tuned.
      */
     public static double MAX_VEL = 64;
-    public static double MAX_ACCEL = 60;
-    public static double MAX_ANG_VEL = 4.467498059104943;
+    public static double MAX_ACCEL = 64;
+    public static double MAX_ANG_VEL = 1.8085484490444828;
     public static double MAX_ANG_ACCEL = Math.toRadians(90);
 
     public static double kV = 0.012; //0.0126258833585406
@@ -60,16 +60,16 @@ public class DriveConstantsCompTiger {
      * inches.
      */
 
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(20, 3, 3);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(17, 3, 3);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 2, 0);
 
-    public static double LATERAL_MULTIPLIER = 1;
+    public static double LATERAL_MULTIPLIER = 2.5;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
 
-    public static double LATERAL_DISTANCE = 25.31160324; // in; distance between the left and right wheels
+    public static double LATERAL_DISTANCE = 12.656224630957528; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = 4; // in; offset of the lateral wheel
 
     public static double X_MULTIPLIER = 0.49886952602; //0.4968732578591515

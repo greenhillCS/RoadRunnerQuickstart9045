@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
@@ -28,69 +29,149 @@ public class allianceCycleAutonRight extends LinearOpMode {
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
 
         IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor, telemetry);
+        ElapsedTime time = new ElapsedTime();
 
         drive.setPoseEstimate(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)));
 
         clawServo.setPosition(1);
         slides.moveTo(10);
+        while (slideMotor.isBusy() && !isStopRequested() && opModeIsActive()){
+            continue;
+        }
 
         entrance = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .addTemporalMarker(slides::hookPosUp)
-                .splineTo(new Vector2d(0, -26-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
+                .splineTo(new Vector2d(-4, -24-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
                 .build();
 
         cycle1 = drive.trajectorySequenceBuilder(entrance.end())
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(36, -24), Math.toRadians(90))
-                .splineTo(new Vector2d(41, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(46, -24), Math.toRadians(270))
-                .forward(33)
-                .splineToConstantHeading(new Vector2d(48, -72+(DriveConstants.BOT_LENGTH/2)), Math.toRadians(270))
-                .setReversed(false)
-                .lineToLinearHeading(new Pose2d(0, -26-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .splineToLinearHeading(new Pose2d(36, -36, Math.toRadians(270)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(36, -15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(44, -15), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .addTemporalMarker(() -> {clawServo.setPosition(1);})
+                .waitSeconds(1)
+                .addTemporalMarker(slides::hookPosUp)
+                .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle2 = drive.trajectorySequenceBuilder(cycle1.end())
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(36, -24), Math.toRadians(90))
-                .splineTo(new Vector2d(46, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(56, -24), Math.toRadians(270))
-                .forward(33)
-                .splineToConstantHeading(new Vector2d(48, -72+(DriveConstants.BOT_LENGTH/2)), Math.toRadians(270))
-                .setReversed(false)
-                .lineToLinearHeading(new Pose2d(0, -26-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .splineToLinearHeading(new Pose2d(46, -36, Math.toRadians(270)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(46, -15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(56, -15), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .addTemporalMarker(() -> {clawServo.setPosition(1);})
+                .waitSeconds(1)
+                .addTemporalMarker(slides::hookPosUp)
+                .lineToLinearHeading(new Pose2d(0, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle3 = drive.trajectorySequenceBuilder(cycle2.end())
                 .setReversed(true)
-                .splineToConstantHeading(new Vector2d(36, -24), Math.toRadians(90))
-                .splineTo(new Vector2d(48, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(60, -24), Math.toRadians(270))
-                .forward(33)
-                .splineToConstantHeading(new Vector2d(48, -72+(DriveConstants.BOT_LENGTH/2)), Math.toRadians(270))
-                .setReversed(false)
-                .lineToLinearHeading(new Pose2d(0, -26-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .splineToLinearHeading(new Pose2d(52, -36, Math.toRadians(270)), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(52, -15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(62, -15), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(62, -50), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .addTemporalMarker(() -> {clawServo.setPosition(1);})
+                .waitSeconds(1)
+                .addTemporalMarker(slides::hookPosUp)
+                .lineToLinearHeading(new Pose2d(2, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         end = drive.trajectorySequenceBuilder(cycle3.end())
-                .setReversed(true)
-                .splineToConstantHeading(new Vector2d(36, -24), Math.toRadians(90))
-                .splineTo(new Vector2d(41, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(46, -24), Math.toRadians(270))
-                .forward(33)
-                .splineToConstantHeading(new Vector2d(48, -72+(DriveConstants.BOT_LENGTH/2)), Math.toRadians(270))
-                .setReversed(false)
-                .lineToLinearHeading(new Pose2d(0, -26-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(48, -66, Math.toRadians(270)))
+                .addTemporalMarker(() -> {clawServo.setPosition(1);})
+                .waitSeconds(1)
+                .addTemporalMarker(slides::hookPosUp)
+                .lineToLinearHeading(new Pose2d(4, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             drive.followTrajectorySequenceAsync(entrance);
+            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+                drive.update();
+            }
+            slides.hookPosDown();
+            time.reset();
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+                continue;
+            }
+            clawServo.setPosition(0);
+            slides.startPos();
+//            time.reset();
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//                continue;
+//            }
+
             drive.followTrajectorySequenceAsync(cycle1);
+            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+                drive.update();
+            }
+            slides.hookPosDown();
+            time.reset();
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+                continue;
+            }
+            clawServo.setPosition(0);
+            slides.startPos();
+//            time.reset();
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//                continue;
+//            }
+
             drive.followTrajectorySequenceAsync(cycle2);
+            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+                drive.update();
+            }
+            slides.hookPosDown();
+            time.reset();
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+                continue;
+            }
+            clawServo.setPosition(0);
+            slides.startPos();
+//            time.reset();
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//                continue;
+//            }
+
             drive.followTrajectorySequenceAsync(cycle3);
+            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+                drive.update();
+            }
+            slides.hookPosDown();
+            time.reset();
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+                continue;
+            }
+            clawServo.setPosition(0);
+            slides.startPos();
+//            time.reset();
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//                continue;
+//            }
+
             drive.followTrajectorySequenceAsync(end);
+            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+                drive.update();
+            }
+            slides.hookPosDown();
+            time.reset();
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+                continue;
+            }
+            clawServo.setPosition(0);
+            slides.startPos();
+//            time.reset();
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//                continue;
+//            }
             PositionStorage.pose = drive.getPoseEstimate();
             break;
         }

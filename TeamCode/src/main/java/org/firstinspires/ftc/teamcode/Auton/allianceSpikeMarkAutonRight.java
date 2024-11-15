@@ -50,8 +50,8 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(56, -10 , Math.toRadians(90)))
                 .lineTo(new Vector2d(56, -57))
                 .lineToSplineHeading(new Pose2d(56, -10 , Math.toRadians(90)))
-                .lineTo(new Vector2d(60, -10))
-                .lineTo(new Vector2d(60, -57))
+                .lineTo(new Vector2d(62, -10))
+                .lineTo(new Vector2d(62, -57))
                 .build();
 
         waitForStart();
