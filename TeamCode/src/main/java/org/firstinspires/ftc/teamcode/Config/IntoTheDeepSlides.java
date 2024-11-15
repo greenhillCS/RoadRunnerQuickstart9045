@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Config;
 
+import android.text.method.Touch;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadConfigMenu;
@@ -20,13 +23,23 @@ public class IntoTheDeepSlides {
     private int targetPos = 0;
     private int t = 1;
     private Telemetry telemetry;
+    private TouchSensor touchSensor;
+    public boolean isSlideDown = false;
 
-    public IntoTheDeepSlides(DcMotor motor, Telemetry te){
+
+
+    public IntoTheDeepSlides(DcMotor motor, Telemetry te, TouchSensor touch){
+        touchSensor = touch;
         telemetry = te;
         slideMotor = motor;
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        while (!isSlideDown) {
+            slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            isSlideDown = touchSensor.isPressed();
+            slideMotor.setPower(-0.2);
+        }
     }
     public void moveToWait(int pos){
         if (slideMotor.getCurrentPosition()!=pos){
@@ -58,9 +71,11 @@ public class IntoTheDeepSlides {
         slideMotor.setPower(fastSpeed*triggerSpeed);
     }
     public void down(double triggerSpeed){
-        if(slideMotor.getCurrentPosition()!=0){
+        if(!touchSensor.isPressed()){
             slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             slideMotor.setPower(-fastSpeed*triggerSpeed);
+        } else {
+            slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
     public void hardPull(){
@@ -82,7 +97,11 @@ public class IntoTheDeepSlides {
     }
 
     public void startPos(){
-        moveTo(0);
+        while (!isSlideDown) {
+            slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            isSlideDown = touchSensor.isPressed();
+            slideMotor.setPower(-0.2);
+        }
     }
     public void hookPosUp(){
         moveTo(-hookPos1);
