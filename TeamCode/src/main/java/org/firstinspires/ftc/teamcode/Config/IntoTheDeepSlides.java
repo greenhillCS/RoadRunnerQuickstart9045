@@ -41,8 +41,10 @@ public class IntoTheDeepSlides {
                 isSlideDown = touchSensor.isPressed();
                 slideMotor.setPower(0.2);
                 telemetry.addData("Is Slide Down", isSlideDown);
+                telemetry.update();
             }
             telemetry.addData("Is Slide Down", isSlideDown);
+            telemetry.update();
             slideMotor.setPower(0);
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
@@ -74,19 +76,19 @@ public class IntoTheDeepSlides {
 
     public void up(double triggerSpeed){
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slideMotor.setPower(fastSpeed*triggerSpeed);
+        slideMotor.setPower(-fastSpeed*triggerSpeed);
     }
     public void down(double triggerSpeed){
         if(!touchSensor.isPressed()){
             slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            slideMotor.setPower(-fastSpeed*triggerSpeed);
+            slideMotor.setPower(fastSpeed*triggerSpeed);
         } else {
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
     public void hardPull(){
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slideMotor.setPower(-fastSpeed);
+        slideMotor.setPower(fastSpeed);
     }
     public void stop(){
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

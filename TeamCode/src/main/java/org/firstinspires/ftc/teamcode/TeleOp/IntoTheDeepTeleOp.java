@@ -88,7 +88,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
 
         scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
-        hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
+//        hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
         intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor);//WHAT THE SIGMA
 
         waitForStart();
@@ -215,15 +215,15 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     //DRIVE CONTROLS ^^^^^
 
                     //HANGING SLIDE CONTROLS vvvvv
-                    if (gamepad1.dpad_left) {
-                        hangar.startPos();
-                    } else if (gamepad1.right_trigger > 0) {
-                        hangar.up(gamepad1.right_trigger);
-                    } else if (gamepad1.left_trigger > 0) {
-                        hangar.down(gamepad1.left_trigger);
-                    } else {
-                        hangar.stop();
-                    }
+//                    if (gamepad1.dpad_left) {
+//                        hangar.startPos();
+//                    } else if (gamepad1.right_trigger > 0) {
+//                        hangar.up(gamepad1.right_trigger);
+//                    } else if (gamepad1.left_trigger > 0) {
+//                        hangar.down(gamepad1.left_trigger);
+//                    } else {
+//                        hangar.stop();
+//                    }
                     //HANGING SLIDE CONTROLS ^^^^^
 
                     //SCORING SLIDE CONTROLS vvvvv
