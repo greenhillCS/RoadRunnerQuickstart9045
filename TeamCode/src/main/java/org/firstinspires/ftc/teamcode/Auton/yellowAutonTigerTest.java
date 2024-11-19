@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.rev.RevTouchSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+@Autonomous(group="intothedeep", name="Tiger Yellow Left Auton")
 public class yellowAutonTigerTest extends LinearOpMode {
 
     public void runOpMode(){
