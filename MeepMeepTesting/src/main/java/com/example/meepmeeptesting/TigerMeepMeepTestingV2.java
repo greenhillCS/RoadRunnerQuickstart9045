@@ -13,12 +13,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class MeepMeepTestingthesequal {
+public class TigerMeepMeepTestingV2 {
     public static void main(String[] args) {
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
         Image img = null;
-        try { img = ImageIO.read(new File("C:\\Users\\ghelanin27\\StudioProjects\\RoadRunnerQuickstart9045\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
+        try { img = ImageIO.read(new File("C:\\Users\\ZhaoT28\\StudioProjects\\RoadRunnerQuickstart9045Tiger\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
         catch (IOException e) {}
         double trackWidth = 16.33858;
 
@@ -36,22 +36,29 @@ public class MeepMeepTestingthesequal {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(30, 30, Math.toRadians(60), 4.467498059104943, trackWidth)
+                .setConstraints(64, 64, Math.toRadians(60), 4.467498059104943, trackWidth)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(4.77, -69.93, Math.toRadians(-90.00)))
-                                .lineToSplineHeading(new Pose2d(-5.4, -34.65, Math.toRadians(-90)))
-                                .lineToSplineHeading(new Pose2d(-36, -36, Math.toRadians(-90)))
-                                .lineToSplineHeading(new Pose2d(-36, -13 , Math.toRadians(-90)))
-                                .lineToSplineHeading(new Pose2d(-46,-10, Math.toRadians(-90)))
-                                .lineTo(new Vector2d(-47, -57))
-                                .lineTo(new Vector2d(-47, -10))
-                                .lineToSplineHeading(new Pose2d(-56, -10 , Math.toRadians(-90)))
-                                .lineTo(new Vector2d(-56, -57))
-                                .lineToSplineHeading(new Pose2d(-58, -10 , Math.toRadians(-90)))
-                                .lineTo(new Vector2d(-63, -10))
-                                .lineTo(new Vector2d(-63, -61))
+                        drive.trajectorySequenceBuilder(new Pose2d(4.77, -69.93, Math.toRadians(90.00)))
+                                .lineToSplineHeading(new Pose2d(5.4, -34.65, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(36, -13 , Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(46,-10, Math.toRadians(-90)))
+                                .lineToSplineHeading(new Pose2d(47, -57, Math.toRadians(-90)))
+                                //close claw
+                                //slideup
+                                .lineToSplineHeading(new Pose2d(5.4, -34.65, Math.toRadians(90)))
+                                //hook and lower slide
+                                .lineToSplineHeading(new Pose2d(47, -57, Math.toRadians(-90)))
+                                //close claw
+                                //slide up
+                                .lineToSplineHeading(new Pose2d(5.4, -34.65, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(47,-10, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(54,-10, Math.toRadians(90)))
+                                .back(45)
+                                //hook and lower claw finish
                                 /*.splineTo(new Vector2d(32.74, -34.81), Math.toRadians(-0.33))
                                 .splineTo(new Vector2d(47.05, -0.16), Math.toRadians(67.57))
                                 .splineTo(new Vector2d(58.33, -0.16), Math.toRadians(0.00))
