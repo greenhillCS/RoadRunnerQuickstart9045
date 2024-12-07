@@ -77,7 +77,7 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
             drive.followTrajectorySequence(t3);
 
             
-            slides.moveToWait(0);
+            slides.startPos();
 
             PositionStorage.pose = drive.getPoseEstimate();
             break;

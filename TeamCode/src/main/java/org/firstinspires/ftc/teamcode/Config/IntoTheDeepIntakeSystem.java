@@ -21,11 +21,12 @@ public class IntoTheDeepIntakeSystem {
     }
     public void update(Gamepad gamepad){
         if (gamepad.right_stick_y != 0) {
-            if (slides.getCurrentPosition() >= 1550 && gamepad.right_stick_y < 0) {
-                slides.setPower(0);
-            }else {
-                slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
-            }
+//            if (slides.getCurrentPosition() >= 1550 && gamepad.right_stick_y < 0) {
+//                slides.setPower(0);
+//            }else {
+//                slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
+//            }
+            slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
         } else{
             slides.setPower(0);
         }

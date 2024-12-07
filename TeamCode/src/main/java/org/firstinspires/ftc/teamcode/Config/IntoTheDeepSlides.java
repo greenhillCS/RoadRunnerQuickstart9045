@@ -37,16 +37,7 @@ public class IntoTheDeepSlides {
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         if (touch != null){
-            while (!isSlideDown) {
-                isSlideDown = touchSensor.isPressed();
-                slideMotor.setPower(0.2);
-                telemetry.addData("Is Slide Down", isSlideDown);
-                telemetry.update();
-            }
-            telemetry.addData("Is Slide Down", isSlideDown);
-            telemetry.update();
-            slideMotor.setPower(0);
-            slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            startPos();
         }
     }
     public void moveToWait(int pos){
@@ -105,12 +96,23 @@ public class IntoTheDeepSlides {
     }
 
     public void startPos(){
-        while (!isSlideDown) {
-            slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        isSlideDown = false;
+//        telemetry.update();
+        runTime.reset();
+        slideMotor.setTargetPosition(10000);
+        slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (!isSlideDown && runTime.seconds()<timeOutSecs){
             isSlideDown = touchSensor.isPressed();
-            slideMotor.setPower(0.2);
+            slideMotor.setPower(1);
             telemetry.addData("Is Slide Down", isSlideDown);
+            telemetry.update();
         }
+        telemetry.addData("Is Slide Down", isSlideDown);
+        telemetry.addData("Is Slide Down", "Done");
+        telemetry.update();
+        slideMotor.setPower(0);
+        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void hookPosUp(){
         moveTo(-hookPos1);

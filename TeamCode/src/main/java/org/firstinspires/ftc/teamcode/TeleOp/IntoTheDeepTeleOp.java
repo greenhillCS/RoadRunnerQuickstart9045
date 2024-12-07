@@ -84,6 +84,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
+//        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
         CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
 
@@ -246,9 +247,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         }
                         scorer.hookPosUp();
                     } else if (gamepad2.right_trigger > 0) {
-                        scorer.down(gamepad2.right_trigger);
+                        scorer.up(gamepad2.right_trigger);
                     } else if (gamepad2.left_trigger > 0) {
-                        scorer.up(gamepad2.left_trigger);
+                        scorer.down(gamepad2.left_trigger);
                     }else {
                         scorer.stop();
                     }
