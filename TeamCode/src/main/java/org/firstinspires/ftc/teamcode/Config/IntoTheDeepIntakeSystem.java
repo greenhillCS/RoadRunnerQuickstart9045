@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Config;
 
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class IntoTheDeepIntakeSystem {
     DcMotor joint;
     DcMotor slides;
+    RevTouchSensor touch;
 
     double jointMax = 1.0;
     double slidesMax = 1.0;
@@ -32,5 +34,8 @@ public class IntoTheDeepIntakeSystem {
         }
 
         joint.setPower(-gamepad.left_stick_y * jointMax);
+    }
+    public void startPos(){
+
     }
 }
