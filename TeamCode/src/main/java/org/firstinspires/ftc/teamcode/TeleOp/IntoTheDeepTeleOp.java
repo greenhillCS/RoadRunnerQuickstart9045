@@ -85,7 +85,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
 //        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
-        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
+        Servo intakeServo = hardwareMap.get(Servo.class, "IS");
+        Servo rotationServo = hardwareMap.get(Servo.class, "RS");
+        Servo angleServo = hardwareMap.get(Servo.class, "AS");
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
 
         scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
@@ -264,12 +266,29 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     //CLAW CONTROLS ^^^^^
 
                     //INTAKE CONTROLS vvvvv
+//                    if (gamepad2.right_bumper){
+//                        intakeServo.setPower(1);
+//                    } else if (gamepad2.left_bumper) {
+//                        intakeServo.setPower(-1);
+//                    } else{
+//                        intakeServo.setPower(0);
+//                    }
                     if (gamepad2.right_bumper){
-                        intakeServo.setPower(1);
+                        intakeServo.setPosition(1);
                     } else if (gamepad2.left_bumper) {
-                        intakeServo.setPower(-1);
-                    } else{
-                        intakeServo.setPower(0);
+                        intakeServo.setPosition(0);
+                    }
+
+                    if (gamepad2.dpad_up){
+                        angleServo.setPosition(Math.min(angleServo.getPosition() + 0.01, 1));
+                    }if (gamepad2.dpad_down){
+                        angleServo.setPosition(Math.max(angleServo.getPosition() - 0.01, 0));
+                    }
+
+                    if (gamepad2.dpad_right){
+                        rotationServo.setPosition(Math.min(rotationServo.getPosition() + 0.01, 1));
+                    }if (gamepad2.dpad_left){
+                        rotationServo.setPosition(Math.max(rotationServo.getPosition() - 0.01, 0));
                     }
                     intake.update(gamepad2);
                     //INTAKE CONTROLS ^^^^^
