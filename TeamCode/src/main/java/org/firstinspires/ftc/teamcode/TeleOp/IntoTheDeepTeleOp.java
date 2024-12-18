@@ -273,9 +273,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //                    } else{
 //                        intakeServo.setPower(0);
 //                    }
-                    if (gamepad2.right_bumper){
+                    if (gamepad2.left_bumper){
                         intakeServo.setPosition(1);
-                    } else if (gamepad2.left_bumper) {
+                    } else if (gamepad2.right_bumper) {
                         intakeServo.setPosition(0);
                     }
 
@@ -285,9 +285,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         angleServo.setPosition(Math.max(angleServo.getPosition() - 0.01, 0));
                     }
 
-                    if (gamepad2.dpad_right){
+                    if (gamepad2.dpad_left){
                         rotationServo.setPosition(Math.min(rotationServo.getPosition() + 0.01, 1));
-                    }if (gamepad2.dpad_left){
+                    }if (gamepad2.dpad_right){
                         rotationServo.setPosition(Math.max(rotationServo.getPosition() - 0.01, 0));
                     }
                     intake.update(gamepad2);
