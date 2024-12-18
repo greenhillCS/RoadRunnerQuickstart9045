@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group="intothedeep", name="ultimate succulent juicy auton cycle ")
+@Autonomous(group="intothedeep", name="ultimate claw cycle")
 public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
