@@ -26,6 +26,8 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
         IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor, telemetry, scoringTouchSensor);
 
+
+
         drive.setPoseEstimate(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)));
 
         clawServo.setPosition(1);
@@ -33,6 +35,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
         while (slideMotor.isBusy() && slides.runTime.seconds() < slides.timeOutSecs && opModeIsActive() && !isStopRequested()) {
             continue;
         }
+
 
         TrajectorySequence t1 =  drive.trajectorySequenceBuilder(new Pose2d(4.77, -69.93, Math.toRadians(90.00)))
                 .lineToSplineHeading(new Pose2d(32, -41, Math.toRadians(42)))
@@ -49,5 +52,9 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 //drop 3
                 .lineToSplineHeading(new Pose2d(26, -41, Math.toRadians(90)))
                 .build();
+
+        waitForStart();
+        drive.followTrajectorySequence(t1);
+
     }
 }
