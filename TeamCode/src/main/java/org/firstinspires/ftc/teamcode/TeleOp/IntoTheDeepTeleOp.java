@@ -88,11 +88,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         Servo intakeServo = hardwareMap.get(Servo.class, "IS");
         Servo rotationServo = hardwareMap.get(Servo.class, "RS");
         Servo angleServo = hardwareMap.get(Servo.class, "AS");
+
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
+        RevTouchSensor intakeSlidesTouchSensor = hardwareMap.get(RevTouchSensor.class, "TI");
+        RevTouchSensor angleTouchSensor = hardwareMap.get(RevTouchSensor.class, "TA");
 
         scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
 //        hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
-        intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor);//WHAT THE SIGMA
+        intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor, intakeSlidesTouchSensor, angleTouchSensor, telemetry);//WHAT THE SIGMA
 
         waitForStart();
 
