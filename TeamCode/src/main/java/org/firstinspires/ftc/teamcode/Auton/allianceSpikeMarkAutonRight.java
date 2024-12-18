@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group="intothedeep", name="alliance SpikeMark AutonRight")
+@Autonomous(group="intothedeep", name="Juicy auton 3 cycle")
 public class allianceSpikeMarkAutonRight extends LinearOpMode {
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
