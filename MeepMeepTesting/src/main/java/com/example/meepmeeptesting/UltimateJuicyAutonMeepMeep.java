@@ -34,8 +34,8 @@ public class UltimateJuicyAutonMeepMeep {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(4.77, -69.93, Math.toRadians(90.00)))
-                                .lineToSplineHeading(new Pose2d(32, -41, Math.toRadians(42)))
+                        drive.trajectorySequenceBuilder(new Pose2d(4.77, -69.93, Math.toRadians(-90.00)))
+                                .lineToSplineHeading(new Pose2d(32, -41, Math.toRadians(-135)))
                                 //grab 1
                                 .turn(Math.toRadians(-115))
                                 //drop 1
