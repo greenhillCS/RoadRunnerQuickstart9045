@@ -14,12 +14,16 @@ public class IntoTheDeepIntakeSystem {
     DcMotor slides;
     RevTouchSensor touchSlides;
     RevTouchSensor touchJoint;
-    ElapsedTime runTime;
-    int timeOutSecs = 1;
+    ElapsedTime runTime = new ElapsedTime();
+    int timeOutSecs = 3;
 
     double jointMax = 1.0;
     double slidesMax = 1.0;
     Telemetry telemetry;
+    boolean isBusy;
+    boolean wasControlled = false;
+    boolean slidesTouching;
+    boolean jointTouching;
     public IntoTheDeepIntakeSystem(DcMotor s, DcMotor j, RevTouchSensor ts, RevTouchSensor tj, Telemetry tel){
         joint = j;
         joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -30,35 +34,60 @@ public class IntoTheDeepIntakeSystem {
         touchSlides = ts;
         touchJoint = tj;
         telemetry = tel;
-//        startPos();
+        startPos();
     }
     public void update(Gamepad gamepad){
-        if (gamepad.right_stick_y != 0) {
-//            if (slides.getCurrentPosition() >= 1550 && gamepad.right_stick_y < 0) {
-//                slides.setPower(0);
-//            }else {
-//                slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
-//            }
-            slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
-        } else{
-            slides.setPower(0);
-        }
+        if(gamepad.right_stick_y != 0 || gamepad.left_stick_y != 0) {
+            wasControlled = true;
 
-        joint.setPower(-gamepad.left_stick_y * jointMax);
+            if (isBusy) {
+                isBusy = false;
+                slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (touchSlides.isPressed() && !slidesTouching) {
+                slides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                slides.setPower(0);
+                slidesTouching = true;
+            } else if (gamepad.right_stick_y < 0 || !touchSlides.isPressed()) {
+                slides.setPower(-(gamepad.right_stick_y * slidesMax) - 0.00);
+                slidesTouching = false;
+            } else {
+                slides.setPower(0);
+            }
+
+            if (touchJoint.isPressed() && !jointTouching) {
+                joint.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                joint.setPower(0);
+                jointTouching = true;
+            } else if (gamepad.left_stick_y > 0 || !touchJoint.isPressed()) {
+                joint.setPower(-(gamepad.left_stick_y * jointMax) - 0.00);
+                jointTouching = false;
+            } else {
+                joint.setPower(0);
+            }
+        } else if(wasControlled){
+            slides.setPower(0);
+            joint.setPower(0);
+        }
     }
     public void moveTo(int pos, int angle){
+        wasControlled = false;
         joint.setTargetPosition(angle);
         joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joint.setPower(1);
         slides.setTargetPosition(pos);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        joint.setPower(1);
+        slides.setPower(1);
+        isBusy = true;
     }
     public void startPos(){
         boolean isSlideDown = false;
 //        telemetry.update();
         runTime.reset();
-        slides.setTargetPosition(10000);
+        slides.setTargetPosition(-10000);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (!isSlideDown && runTime.seconds()<timeOutSecs){
             isSlideDown = touchSlides.isPressed();
@@ -72,9 +101,10 @@ public class IntoTheDeepIntakeSystem {
         slides.setPower(0);
         slides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slidesTouching = true;
 
         runTime.reset();
-        joint.setTargetPosition(10000);
+        joint.setTargetPosition(20000);
         joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (!touchJoint.isPressed() && runTime.seconds()<timeOutSecs){
             joint.setPower(1);
@@ -87,7 +117,7 @@ public class IntoTheDeepIntakeSystem {
         joint.setPower(0);
         joint.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        joint.setTargetPosition(-100);
+        joint.setTargetPosition(-400);
         joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joint.setPower(1);
         while(joint.isBusy()){
@@ -95,5 +125,6 @@ public class IntoTheDeepIntakeSystem {
         }
         joint.setPower(0);
         joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        jointTouching = true;
     }
 }

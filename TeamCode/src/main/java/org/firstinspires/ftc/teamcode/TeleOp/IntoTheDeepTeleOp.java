@@ -84,10 +84,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");
+        clawServo.setPosition(0);
 //        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
         Servo intakeServo = hardwareMap.get(Servo.class, "IS");
+        intakeServo.setPosition(1);
         Servo rotationServo = hardwareMap.get(Servo.class, "RS");
+        rotationServo.setPosition(0.7);
         Servo angleServo = hardwareMap.get(Servo.class, "AS");
+        angleServo.setPosition(0.15);
 
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
         RevTouchSensor intakeSlidesTouchSensor = hardwareMap.get(RevTouchSensor.class, "TI");
@@ -233,25 +237,26 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     //HANGING SLIDE CONTROLS ^^^^^
 
                     //SCORING SLIDE CONTROLS vvvvv
-                    if (gamepad2.b && !gamepad2.start) {
-                        if (clawServo.getPosition() != 0) {
-                            clawServo.setPosition(0);
-                            time.reset();
-                            while(opModeIsActive() && time.seconds() < 0.5){
-                                continue;
-                            }
-                        }
-                        scorer.startPos();
-                    } else if (gamepad2.y) {
-                        if (clawServo.getPosition() != 1) {
-                            clawServo.setPosition(1);
-                            time.reset();
-                            while(opModeIsActive() && time.seconds() < 0.5){
-                                continue;
-                            }
-                        }
-                        scorer.hookPosUp();
-                    } else if (gamepad2.right_trigger > 0) {
+//                    if (gamepad2.b && !gamepad2.start) {
+//                        if (clawServo.getPosition() != 0) {
+//                            clawServo.setPosition(0);
+//                            time.reset();
+//                            while(opModeIsActive() && time.seconds() < 0.5){
+//                                continue;
+//                            }
+//                        }
+//                        scorer.startPos();
+//                    } else if (gamepad2.y) {
+//                        if (clawServo.getPosition() != 1) {
+//                            clawServo.setPosition(1);
+//                            time.reset();
+//                            while(opModeIsActive() && time.seconds() < 0.5){
+//                                continue;
+//                            }
+//                        }
+//                        scorer.hookPosUp();
+//                    } else
+                    if (gamepad2.right_trigger > 0) {
                         scorer.up(gamepad2.right_trigger);
                     } else if (gamepad2.left_trigger > 0) {
                         scorer.down(gamepad2.left_trigger);
@@ -292,6 +297,17 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         rotationServo.setPosition(Math.min(rotationServo.getPosition() + 0.01, 1));
                     }if (gamepad2.dpad_right){
                         rotationServo.setPosition(Math.max(rotationServo.getPosition() - 0.01, 0));
+                    }
+                    if(gamepad2.b && !gamepad2.start){
+                        intake.moveTo(0, -1750);
+                        angleServo.setPosition(0.4);
+                        rotationServo.setPosition(0.7);
+                        intakeServo.setPosition(1);
+                    }else if(gamepad2.y){
+                        intake.moveTo(2730, -1200);
+                        angleServo.setPosition(0.55);
+                        rotationServo.setPosition(0.7);
+                        intakeServo.setPosition(0);
                     }
                     intake.update(gamepad2);
                     //INTAKE CONTROLS ^^^^^

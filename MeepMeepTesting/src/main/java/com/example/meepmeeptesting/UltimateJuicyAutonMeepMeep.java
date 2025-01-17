@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
+import java.nio.file.Path;
+
 import javax.imageio.ImageIO;
 
 public class UltimateJuicyAutonMeepMeep {
@@ -18,7 +20,11 @@ public class UltimateJuicyAutonMeepMeep {
         // Declare a MeepMeep instance
         // With a field size of 800 pixels
         Image img = null;
-        try { img = ImageIO.read(new File("C:\\Users\\ZhaoT28\\StudioProjects\\RoadRunnerQuickstart9045Tiger\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
+        String classPath = UltimateJuicyAutonMeepMeep.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        File classFile = new File(classPath);
+        File parentDirectory = classFile.getParentFile().getParentFile().getParentFile().getParentFile().getParentFile();
+        System.out.print(parentDirectory+"\\field-2024-juice-dark.png");
+        try { img = ImageIO.read(new File(parentDirectory+"\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
         catch (IOException e) {}
         double trackWidth = 16.33858;
 
@@ -34,20 +40,20 @@ public class UltimateJuicyAutonMeepMeep {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(4.77, -69.93, Math.toRadians(-90.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(12, -72+(botLength/2), Math.toRadians(-90.00)))
                                 .lineToSplineHeading(new Pose2d(32, -41, Math.toRadians(-135)))
                                 //grab 1
-                                .turn(Math.toRadians(-115))
+                                .turn(Math.toRadians(-90))
                                 //drop 1
-                                .turn(Math.toRadians(105))
+                                .turn(Math.toRadians(70))
                                 //grab 2
-                                .turn(Math.toRadians(-105))
+                                .turn(Math.toRadians(-70))
                                 //drop 2
-                                .turn(Math.toRadians(95))
+                                .turn(Math.toRadians(65))
                                 //grab 3
-                                .turn(Math.toRadians(-95))
+                                .turn(Math.toRadians(-65))
                                 //drop 3
-                                .lineToSplineHeading(new Pose2d(26, -41, Math.toRadians(90)))
+                                .lineToSplineHeading(new Pose2d(26, -41, Math.toRadians(125)))
                                 .build()
                 );
 
