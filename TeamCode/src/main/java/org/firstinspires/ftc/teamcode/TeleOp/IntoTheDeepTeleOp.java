@@ -13,14 +13,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Auton.Position.PositionStorage;
 
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepIntakeSystem;
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepSlides;
 
+import org.firstinspires.ftc.teamcode.Config.Transform3d;
+import org.firstinspires.ftc.teamcode.Config.Vision;
 import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp(group="intothedeep", name="IntoTheDeepTeleOp")
 public class IntoTheDeepTeleOp extends LinearOpMode {
@@ -47,6 +53,18 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     IntoTheDeepSlides hangar;
     IntoTheDeepIntakeSystem intake;
 
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    /**
+     * The variable to store our instance of the AprilTag processor.
+     */
+    private AprilTagProcessor aprilTag;
+
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
+
     private double accelerate(double currentPower, double targetPower, double acceleration){
         if (currentPower < targetPower) {
             return Math.min(currentPower + acceleration, targetPower);
@@ -67,39 +85,56 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
 
         //Drive Motor init
-        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
-        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "leftBack");
-        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
-        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rightBack");
+        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");//port 1
+        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "leftBack");//port 3
+        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");//port 0
+        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rightBack");//port 2
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         //DC Motor init
-        DcMotor scoringMotor = hardwareMap.get(DcMotor.class, "SM");
-        DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
-        DcMotor jointMotor = hardwareMap.get(DcMotor.class, "JM");
-        DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "IM");
+        DcMotor scoringMotor = hardwareMap.get(DcMotor.class, "SM");//port 0
+//        DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
+        DcMotor jointMotor = hardwareMap.get(DcMotor.class, "JM");//port 2
+        DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "IM");//port 3
 
         //Servo Motor init
-        Servo clawServo = hardwareMap.get(Servo.class, "CS");
+        Servo clawServo = hardwareMap.get(Servo.class, "CS");//port 0
         clawServo.setPosition(0);
 //        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
-        Servo intakeServo = hardwareMap.get(Servo.class, "IS");
+        Servo intakeServo = hardwareMap.get(Servo.class, "IS");//port 1
         intakeServo.setPosition(1);
-        Servo rotationServo = hardwareMap.get(Servo.class, "RS");
+        Servo rotationServo = hardwareMap.get(Servo.class, "RS");//port 3
         rotationServo.setPosition(0.7);
-        Servo angleServo = hardwareMap.get(Servo.class, "AS");
+        Servo angleServo = hardwareMap.get(Servo.class, "AS");//port 2
         angleServo.setPosition(0.15);
 
-        RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");
-        RevTouchSensor intakeSlidesTouchSensor = hardwareMap.get(RevTouchSensor.class, "TI");
-        RevTouchSensor angleTouchSensor = hardwareMap.get(RevTouchSensor.class, "TA");
+        RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");//port 1
+        RevTouchSensor intakeSlidesTouchSensor = hardwareMap.get(RevTouchSensor.class, "TI");//port 3
+        RevTouchSensor angleTouchSensor = hardwareMap.get(RevTouchSensor.class, "TA");//port 5
 
         scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
 //        hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
         intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor, intakeSlidesTouchSensor, angleTouchSensor, telemetry);//WHAT THE SIGMA
+
+        // Create the AprilTag processor the easy way.
+//        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+//        Vision vision = new Vision(visionPortal, aprilTag);
+//
+//        // Create the vision portal the easy way.
+//        if (USE_WEBCAM) {
+//            visionPortal = VisionPortal.easyCreateWithDefaults(
+//                    hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+//        } else {
+//            visionPortal = VisionPortal.easyCreateWithDefaults(
+//                    BuiltinCameraDirection.BACK, aprilTag);
+//        }
+//
+//        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+//        telemetry.addData(">", "Touch Play to start OpMode");
+//        telemetry.update();
 
         waitForStart();
 
@@ -145,7 +180,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //                            continue;
 //                        }
 //                        currentMode = Mode.AUTOMATIC_CONTROL;
-//                    } else if (gamepad1.x) {
+//                    }
+//                    if (gamepad1.x) {
 //                        //Submersible Zone Waypoint Logic----------------------------------------------------------
 //                        telemetry.addData("Moving To:", "Submersible Zone");
 //                        if (y >= -36 && x < 0){
@@ -165,32 +201,47 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //                            continue;
 //                        }
 //                        currentMode = Mode.AUTOMATIC_CONTROL;
-//                    } else if (gamepad1.y) {
-//                        // Observation Zone Waypoint Logic----------------------------------------------------------
-//                        telemetry.addData("Moving To:", "Observation Zone");
-//                        if (y >= -24 && x < 0){
-//                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-//                                    .lineToSplineHeading(new Pose2d(-48, -36, Math.toRadians(225)))
-//                                    .build());
-//                        }
-//                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-//                                .lineToSplineHeading(new Pose2d(52, -50, Math.toRadians(270)))
-//                                .build());
-//                        //Debounce
-//                        while(gamepad1.y){
-//                            continue;
-//                        }
-//                        currentMode = Mode.AUTOMATIC_CONTROL;
-//                    } else if (gamepad1.dpad_up){
-//                        //Resets the robot's position to the middle of the closest wall to the drivers
-//                        drive.setPoseEstimate(new Pose2d(0, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)));
-//                    } else {
+//                    }
+                    if (gamepad1.y) {
+                        // Observation Zone Waypoint Logic----------------------------------------------------------
+                        telemetry.addData("Moving To:", "Observation Zone");
+                        if (y >= -24 && x <= -24){
+                            //if the robot is on the left side of the submersible
+                            drive.followTrajectorySequence(drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                                    .setConstraints(SampleMecanumDrive.getVelocityConstraint(64, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                                SampleMecanumDrive.getAccelerationConstraint(64))
+                                    .lineToSplineHeading(new Pose2d(-48, -36, Math.toRadians(270)))
+                                    .build());
+                        } else if (y >= 24 && x <= 24){
+                            //if the robot is behind the submersible
+                            drive.followTrajectorySequence(drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                                    .setConstraints(SampleMecanumDrive.getVelocityConstraint(64, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                            SampleMecanumDrive.getAccelerationConstraint(64))
+                                    .lineToSplineHeading(new Pose2d(52, 36, Math.toRadians(270)))
+                                    .build());
+                        }
+                        //after it has either gone to a waypoint or not
+                        drive.followTrajectorySequence(drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                                .setConstraints(SampleMecanumDrive.getVelocityConstraint(64, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                        SampleMecanumDrive.getAccelerationConstraint(64))
+                                .lineToSplineHeading(new Pose2d(52, -50, Math.toRadians(270)))
+                                .build());
+                        //Debounce
+                        while(gamepad1.y){
+                            continue;
+                        }
+                        //changes state
+                        currentMode = Mode.AUTOMATIC_CONTROL;
+                    } else if (gamepad1.dpad_up){
+                        //Resets the robot's position to the middle of the closest wall to the drivers
+                        drive.setPoseEstimate(new Pose2d(0, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)));
+                    } else {
                         //Set's the motor's powers if no macros are being called
                         leftFrontDrive.setPower(leftFrontPower * MAX_SPEED);
                         rightFrontDrive.setPower(rightFrontPower * MAX_SPEED);
                         leftBackDrive.setPower(leftBackPower * MAX_SPEED);
                         rightBackDrive.setPower(rightBackPower * MAX_SPEED);
-//                    }
+                    }
                     //WAYPOINT CONTROLS ^^^^^
 
                     //DRIVE CONTROLS vvvvv
@@ -257,19 +308,24 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //                        scorer.hookPosUp();
 //                    } else
                     if (gamepad2.right_trigger > 0) {
+                        //moves scoring slides up
                         scorer.up(gamepad2.right_trigger);
                     } else if (gamepad2.left_trigger > 0) {
+                        //moves scoring slides down
                         scorer.down(gamepad2.left_trigger);
                     }else {
+                        //pauses the slides if no controls are being used
                         scorer.stop();
                     }
                     //SCORING SLIDE CONTROLS ^^^^^
 
                     //CLAW CONTROLS vvvvv
                     if (gamepad2.x) {
+                        //open claw
                         clawServo.setPosition(0);
                     } else if (gamepad2.a) {
-                        clawServo.setPosition(1);
+                        //close claw
+                        clawServo.setPosition(1.1);
                     }
                     //CLAW CONTROLS ^^^^^
 
@@ -282,39 +338,56 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //                        intakeServo.setPower(0);
 //                    }
                     if (gamepad2.left_bumper){
+                        //open claw
                         intakeServo.setPosition(1);
                     } else if (gamepad2.right_bumper) {
+                        //close claw
                         intakeServo.setPosition(0);
                     }
 
                     if (gamepad2.dpad_up){
+                        //yaw up
                         angleServo.setPosition(Math.min(angleServo.getPosition() + 0.01, 1));
                     }if (gamepad2.dpad_down){
+                        //yaw down
                         angleServo.setPosition(Math.max(angleServo.getPosition() - 0.01, 0));
                     }
 
                     if (gamepad2.dpad_left){
+                        //roll left
                         rotationServo.setPosition(Math.min(rotationServo.getPosition() + 0.01, 1));
                     }if (gamepad2.dpad_right){
+                        //roll right
                         rotationServo.setPosition(Math.max(rotationServo.getPosition() - 0.01, 0));
                     }
                     if(gamepad2.b && !gamepad2.start){
+                        //moves intake system to grab from the wall
+                        intakeServo.setPosition(1);
                         intake.moveTo(0, -1750);
                         angleServo.setPosition(0.4);
                         rotationServo.setPosition(0.7);
-                        intakeServo.setPosition(1);
                     }else if(gamepad2.y){
-                        intake.moveTo(2730, -1200);
+                        //moves intake system to score
+                        intakeServo.setPosition(0);
+                        intake.moveTo(3000, -1200);
                         angleServo.setPosition(0.55);
                         rotationServo.setPosition(0.7);
-                        intakeServo.setPosition(0);
+                    } else if(gamepad2.back){
+                        //moves intake system to pick up from the submersible
+                        intakeServo.setPosition(1);
+                        intake.moveTo(0, -2050);
+                        angleServo.setPosition(0.15);
+                        rotationServo.setPosition(0.7);
                     }
+                    //updates intake slides and angler
                     intake.update(gamepad2);
                     //INTAKE CONTROLS ^^^^^
 
                     break;
+
                 case AUTOMATIC_CONTROL:
                     if(gamepad1.a||gamepad1.b||gamepad1.x||gamepad1.y){
+                        //stops using macros if any buttons are pressed
                         drive.breakFollowing();
                         while (gamepad1.a||gamepad1.b||gamepad1.x||gamepad1.y){
                             continue;
@@ -345,9 +418,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             telemetry.addData("Joint Power", jointMotor.getPower());
             telemetry.addData("Intake Encoder", intakeMotor.getCurrentPosition());
             telemetry.addData("Intake Power", intakeMotor.getPower());
+//            telemetry.addData("April Tag Poses", vision.getAprilTagPoses());
             telemetry.update();
         }
-
+//        visionPortal.close();
 
     }
 

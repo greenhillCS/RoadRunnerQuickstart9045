@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group="intothedeep", name="Juicy auton 3 cycle")
+@Autonomous(group="intothedeep", name="Juicy auton 3 cycle + tunak tunak tun")
 public class allianceSpikeMarkAutonRight extends LinearOpMode {
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -36,6 +36,7 @@ public class allianceSpikeMarkAutonRight extends LinearOpMode {
         }
 
         TrajectorySequence t1 = drive.trajectorySequenceBuilder(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00)))
+                .waitSeconds(3)
                 .splineTo(new Vector2d(0, -26-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
                 .build();
 

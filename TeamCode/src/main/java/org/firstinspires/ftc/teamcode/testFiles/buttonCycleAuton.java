@@ -46,7 +46,7 @@ public class buttonCycleAuton extends LinearOpMode {
         entrance = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .addTemporalMarker(slides::hookPosUp)
-                .splineTo(new Vector2d(-4, -21-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
+                .splineTo(new Vector2d(-4, -24-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
                 .build();
 
         cycle1 = drive.trajectorySequenceBuilder(entrance.end())
@@ -54,12 +54,12 @@ public class buttonCycleAuton extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(36, -36, Math.toRadians(270)), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(36, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(44, -15), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -61), Math.toRadians(270))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
-                .lineToLinearHeading(new Pose2d(-2, -20-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .addTemporalMarker(slides::startPos)
+                .waitSeconds(0.1)
+                .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle2 = drive.trajectorySequenceBuilder(cycle1.end())
@@ -67,12 +67,12 @@ public class buttonCycleAuton extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(46, -36, Math.toRadians(270)), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(46, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(56, -15), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -61), Math.toRadians(270))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
-                .lineToLinearHeading(new Pose2d(0, -19-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .addTemporalMarker(slides::startPos)
+                .waitSeconds(0.1)
+                .lineToLinearHeading(new Pose2d(0, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle3 = drive.trajectorySequenceBuilder(cycle2.end())
@@ -81,21 +81,20 @@ public class buttonCycleAuton extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(52, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(62, -15), Math.toRadians(270))
                 .splineToConstantHeading(new Vector2d(62, -50), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -61), Math.toRadians(270))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
-                .lineToLinearHeading(new Pose2d(2, -18-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .addTemporalMarker(slides::startPos)
+                .lineToLinearHeading(new Pose2d(2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
-        end = drive.trajectorySequenceBuilder(cycle3.end())
-                .lineToLinearHeading(new Pose2d(48, -66, Math.toRadians(270)))
+        end = drive.trajectorySequenceBuilder(cycle1.end())
+                .lineToLinearHeading(new Pose2d(48, -61, Math.toRadians(270)))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
-                .lineToLinearHeading(new Pose2d(4, -17-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .addTemporalMarker(slides::startPos)
+                .waitSeconds(0.1)
+                .lineToLinearHeading(new Pose2d(4, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         waitForStart();
@@ -108,17 +107,13 @@ public class buttonCycleAuton extends LinearOpMode {
             }
             slides.hookPosDown();
             time.reset();
-            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 2){
                 continue;
             }
-            clawServo.setPosition(0);
+            clawServo.setPosition(0.2);
             telemetry.addData("touch Sensor after claw",scoringTouchSensor.isPressed());
             telemetry.update();
-//            slides.moveTo(0);
-//            time.reset();
-//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
-//                continue;
-//            }
+            slides.startPos();
 
             drive.followTrajectorySequenceAsync(cycle1);
             telemetry.addData("trajectory","cycle1");
@@ -128,49 +123,38 @@ public class buttonCycleAuton extends LinearOpMode {
             }
             slides.hookPosDown();
             time.reset();
-            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 2){
                 continue;
             }
-            clawServo.setPosition(0);
-//            slides.moveTo(0);
+            clawServo.setPosition(0.2);
+            slides.startPos();
+
+
+//            drive.followTrajectorySequenceAsync(cycle2);
+//            telemetry.addData("trajectory","cycle2");
+//            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+//                drive.update();
+//            }
+//            slides.hookPosDown();
 //            time.reset();
-//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 2){
 //                continue;
 //            }
-
-            drive.followTrajectorySequenceAsync(cycle2);
-            telemetry.addData("trajectory","cycle2");
-            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
-                drive.update();
-            }
-            slides.hookPosDown();
-            time.reset();
-            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
-                continue;
-            }
-            clawServo.setPosition(0);
-//            slides.moveTo(0);
-//            time.reset();
-//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
-//                continue;
-//            }
-
-            drive.followTrajectorySequenceAsync(cycle3);
-            telemetry.addData("trajectory","cycle3");
-            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
-                drive.update();
-            }
-            slides.hookPosDown();
-            time.reset();
-            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
-                continue;
-            }
-            clawServo.setPosition(0);
+//            clawServo.setPosition(0);
 //            slides.startPos();
+//
+//            drive.followTrajectorySequenceAsync(cycle3);
+//            telemetry.addData("trajectory","cycle3");
+//            while(drive.isBusy() && opModeIsActive() && !isStopRequested()){
+//                drive.update();
+//            }
+//            slides.hookPosDown();
 //            time.reset();
-//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 2){
 //                continue;
 //            }
+//            clawServo.setPosition(0);
+//            slides.startPos();
 
             drive.followTrajectorySequenceAsync(end);
             telemetry.addData("trajectory","end");
@@ -179,14 +163,12 @@ public class buttonCycleAuton extends LinearOpMode {
             }
             slides.hookPosDown();
             time.reset();
-            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
+            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 2){
+                continue;
             }
-            clawServo.setPosition(0);
-//            slides.moveTo(0);
-            time.reset();
-//            while(slideMotor.isBusy() && opModeIsActive() && !isStopRequested() && time.seconds() < 1){
-//                continue;
-//            }
+            clawServo.setPosition(0.2);
+            slides.startPos();
+
             PositionStorage.pose = drive.getPoseEstimate();
             break;
         }

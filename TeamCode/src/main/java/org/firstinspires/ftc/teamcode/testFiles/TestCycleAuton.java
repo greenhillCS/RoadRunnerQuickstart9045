@@ -28,12 +28,7 @@ public class TestCycleAuton extends LinearOpMode {
         STOP
     }
     Mode mode;
-    TrajectorySequence entrance;
-    TrajectorySequence scoring;
-    TrajectorySequence cycle1;
-    TrajectorySequence cycle2;
-    TrajectorySequence cycle3;
-    TrajectorySequence end;
+    TrajectorySequence auton;
     double slidePos;
     double targetPos;
     Pose2d lastPos;
@@ -58,110 +53,46 @@ public class TestCycleAuton extends LinearOpMode {
             continue;
         }
 
-        entrance = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosUp)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
-                .splineToConstantHeading(new Vector2d(-2, -24-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosDown)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
+        auton = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .splineTo(new Vector2d(-4, -24-(DriveConstants.BOT_LENGTH/2)), Math.toRadians(90))
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.SCORE;})
-//                .addTemporalMarker(()->lastPos = entrance.end())
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->drive.followTrajectorySequence(cycle1))
-                .build();
 
-//        scoring = drive.trajectorySequenceBuilder(lastPos)
-//                .addTemporalMarker(slides::hookPosUp)
-//                .addTemporalMarker(()->{mode = Mode.MOVING;})
-//                .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-//                .addTemporalMarker(slides::hookPosDown)
-//                .addTemporalMarker(()->{mode = Mode.MOVING;})
-//                .waitSeconds(0.5)
-//                .addTemporalMarker(()->{mode = Mode.SCORE;})
-////                .addTemporalMarker(()->lastPos = scoring.end())
-//                .build();
-
-        cycle1 = drive.trajectorySequenceBuilder(entrance.end())
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(36, -36, Math.toRadians(270)), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(36, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(44, -15), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.INTAKE;})
+                .splineToConstantHeading(new Vector2d(48, -61), Math.toRadians(270))
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosUp)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
                 .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosDown)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.SCORE;})
-                .waitSeconds(0.5)
-//                .addTemporalMarker(()->lastPos = cycle1.end())
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->drive.followTrajectorySequenceAsync(cycle2))
-                .build();
 
-        cycle2 = drive.trajectorySequenceBuilder(cycle1.end())
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(46, -36, Math.toRadians(270)), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(46, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(56, -15), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.INTAKE;})
+                .splineToConstantHeading(new Vector2d(48, -61), Math.toRadians(270))
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosUp)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
-                .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosDown)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
+                .lineToLinearHeading(new Pose2d(0, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.SCORE;})
-                .waitSeconds(0.5)
-//                .addTemporalMarker(()->lastPos = cycle2.end())
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->drive.followTrajectorySequenceAsync(cycle3))
-                .build();
 
-        cycle3 = drive.trajectorySequenceBuilder(cycle2.end())
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(52, -36, Math.toRadians(270)), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(52, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(62, -15), Math.toRadians(270))
                 .splineToConstantHeading(new Vector2d(62, -50), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.INTAKE;})
+                .splineToConstantHeading(new Vector2d(48, -61), Math.toRadians(270))
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosUp)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
-                .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosDown)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
+                .lineToLinearHeading(new Pose2d(2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.SCORE;})
+
+                .lineToLinearHeading(new Pose2d(48, -61, Math.toRadians(270)))
                 .waitSeconds(0.5)
-//                .addTemporalMarker(()->lastPos = cycle3.end())
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->drive.followTrajectorySequenceAsync(end))
+                .lineToLinearHeading(new Pose2d(4, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .waitSeconds(0.5)
+                .lineToLinearHeading(new Pose2d(48, -61, Math.toRadians(270)))
                 .build();
 
-        end = drive.trajectorySequenceBuilder(cycle3.end())
-                .lineToLinearHeading(new Pose2d(48, -66, Math.toRadians(270)))
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.INTAKE;})
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosUp)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
-                .lineToLinearHeading(new Pose2d(-2, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
-                .UNSTABLE_addTemporalMarkerOffset(0, slides::hookPosDown)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.MOVING;})
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{mode = Mode.SCORE;})
-                .waitSeconds(0.5)
-//                .addTemporalMarker(()->{mode = Mode.STOP;})
-                .build();
-
-        drive.followTrajectorySequenceAsync(entrance);
+        drive.followTrajectorySequenceAsync(auton);
 
         waitForStart();
 
@@ -169,33 +100,6 @@ public class TestCycleAuton extends LinearOpMode {
             drive.update();
             slidePos = slideMotor.getCurrentPosition();
             targetPos = slideMotor.getTargetPosition();
-            switch (mode){
-                case MOVING:
-                    telemetry.addData("Mode", "MOVING");
-                    if(slidePos == targetPos){
-                        mode = Mode.NULL;
-                    }
-                case INTAKE:
-                    telemetry.addData("Mode", "INTAKE");
-                    clawServo.setPosition(1);
-                    time.reset();
-                    while(time.seconds()<0.5 && opModeIsActive() && !isStopRequested()){
-                        continue;
-                    }
-                    mode = Mode.NULL;
-                case SCORE:
-                    telemetry.addData("Mode", "SCORE");
-                    clawServo.setPosition(0);
-                    time.reset();
-                    while(time.seconds()<0.5 && opModeIsActive() && !isStopRequested()){
-                        continue;
-                    }
-                    mode = Mode.NULL;
-                case NULL:
-                    telemetry.addData("Mode", "NULL");
-                case STOP:
-                    break;
-            }
         }
         PositionStorage.pose = drive.getPoseEstimate();
     }

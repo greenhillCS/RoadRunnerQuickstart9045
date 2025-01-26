@@ -32,7 +32,8 @@ public class allianceCycleAutonRightNoHang extends LinearOpMode {
         IntoTheDeepSlides slides = new IntoTheDeepSlides(slideMotor, telemetry, scoringTouchSensor);
         ElapsedTime time = new ElapsedTime();
 
-        drive.setPoseEstimate(new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(270.00)));
+        drive.setPoseEstimate(new Pose2d(12, -72+(
+                DriveConstants.BOT_LENGTH/2), Math.toRadians(270.00)));
 
         clawServo.setPosition(1);
         slides.moveTo(-10);
@@ -42,18 +43,20 @@ public class allianceCycleAutonRightNoHang extends LinearOpMode {
 
         entrance = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .setReversed(true)
-                .addTemporalMarker(() -> {clawServo.setPosition(1);})
+                .addTemporalMarker(() -> {clawServo.setPosition(0);})
+                .splineToConstantHeading(new Vector2d(36, -30), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(36, -15), Math.toRadians(90))
                 .build();
 
         cycle1 = drive.trajectorySequenceBuilder(entrance.end())
                 .setReversed(true)
                 .splineToConstantHeading(new Vector2d(44, -15), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -65), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -64), Math.toRadians(270))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
+                .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
                 .waitSeconds(0.1)
-                .lineToLinearHeading(new Pose2d(-2, -23.2-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-4, -19-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle2 = drive.trajectorySequenceBuilder(cycle1.end())
@@ -61,12 +64,12 @@ public class allianceCycleAutonRightNoHang extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(46, -36, Math.toRadians(270)), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(46, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(56, -15), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -69), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
                 .waitSeconds(0.1)
-                .lineToLinearHeading(new Pose2d(0, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(0, -18-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle3 = drive.trajectorySequenceBuilder(cycle2.end())
@@ -75,20 +78,20 @@ public class allianceCycleAutonRightNoHang extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(52, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(62, -15), Math.toRadians(270))
                 .splineToConstantHeading(new Vector2d(62, -50), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48, -66), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -60), Math.toRadians(270))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
-                .lineToLinearHeading(new Pose2d(2, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(2, -19-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         end = drive.trajectorySequenceBuilder(cycle1.end())
-                .lineToLinearHeading(new Pose2d(48, -69, Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(48, -64, Math.toRadians(270)))
                 .addTemporalMarker(() -> {clawServo.setPosition(1);})
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
                 .waitSeconds(0.1)
-                .lineToLinearHeading(new Pose2d(4, -22.2-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(4, -17-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         waitForStart();

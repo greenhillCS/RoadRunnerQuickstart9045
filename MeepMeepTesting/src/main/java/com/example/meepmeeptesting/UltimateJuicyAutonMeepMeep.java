@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -41,19 +42,28 @@ public class UltimateJuicyAutonMeepMeep {
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(12, -72+(botLength/2), Math.toRadians(-90.00)))
-                                .lineToSplineHeading(new Pose2d(32, -41, Math.toRadians(-135)))
+                                .lineToSplineHeading(new Pose2d(44, -41, Math.toRadians(-105)))
                                 //grab 1
-                                .turn(Math.toRadians(-90))
+                                .turn(Math.toRadians(15))
                                 //drop 1
-                                .turn(Math.toRadians(70))
+                                .turn(Math.toRadians(-50))
                                 //grab 2
-                                .turn(Math.toRadians(-70))
+                                .turn(Math.toRadians(50))
                                 //drop 2
-                                .turn(Math.toRadians(65))
+                                .turn(Math.toRadians(-64))
                                 //grab 3
-                                .turn(Math.toRadians(-65))
+                                .turn(Math.toRadians(64))
                                 //drop 3
-                                .lineToSplineHeading(new Pose2d(26, -41, Math.toRadians(125)))
+                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(-4, -48))
+                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(-2, -48))
+                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(0, -48))
+                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(2, -48))
+                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(4, -48))
                                 .build()
                 );
 

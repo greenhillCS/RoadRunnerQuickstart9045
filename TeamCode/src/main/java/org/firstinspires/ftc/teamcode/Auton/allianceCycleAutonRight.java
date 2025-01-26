@@ -57,7 +57,7 @@ public class allianceCycleAutonRight extends LinearOpMode {
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
                 .waitSeconds(0.1)
-                .lineToLinearHeading(new Pose2d(-2, -23.2-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-2, -23-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle2 = drive.trajectorySequenceBuilder(cycle1.end())
@@ -70,7 +70,7 @@ public class allianceCycleAutonRight extends LinearOpMode {
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
                 .waitSeconds(0.1)
-                .lineToLinearHeading(new Pose2d(0, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(0, -24-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         cycle3 = drive.trajectorySequenceBuilder(cycle2.end())
@@ -92,7 +92,7 @@ public class allianceCycleAutonRight extends LinearOpMode {
                 .waitSeconds(1)
                 .addTemporalMarker(slides::hookPosUp)
                 .waitSeconds(0.1)
-                .lineToLinearHeading(new Pose2d(4, -22.2-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(4, -22-(DriveConstants.BOT_LENGTH/2), Math.toRadians(90)))
                 .build();
 
         waitForStart();
