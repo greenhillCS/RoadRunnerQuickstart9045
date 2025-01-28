@@ -34,7 +34,6 @@ public class IntoTheDeepIntakeSystem {
         touchSlides = ts;
         touchJoint = tj;
         telemetry = tel;
-        startPos();
     }
     public void update(Gamepad gamepad){
         if(gamepad.right_stick_y != 0 || gamepad.left_stick_y != 0) {
@@ -117,7 +116,7 @@ public class IntoTheDeepIntakeSystem {
         joint.setPower(0);
         joint.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        joint.setTargetPosition(-400);
+        joint.setTargetPosition(-1000);
         joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joint.setPower(1);
         while(joint.isBusy()){

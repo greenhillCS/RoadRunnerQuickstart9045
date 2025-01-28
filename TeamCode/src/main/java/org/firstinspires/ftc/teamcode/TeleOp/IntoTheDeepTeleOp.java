@@ -102,21 +102,17 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");//port 0
-        clawServo.setPosition(0);
 //        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
         Servo intakeServo = hardwareMap.get(Servo.class, "IS");//port 1
-        intakeServo.setPosition(1);
         Servo rotationServo = hardwareMap.get(Servo.class, "RS");//port 3
-        rotationServo.setPosition(0.7);
         Servo angleServo = hardwareMap.get(Servo.class, "AS");//port 2
-        angleServo.setPosition(0.15);
+
 
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");//port 1
         RevTouchSensor intakeSlidesTouchSensor = hardwareMap.get(RevTouchSensor.class, "TI");//port 3
         RevTouchSensor angleTouchSensor = hardwareMap.get(RevTouchSensor.class, "TA");//port 5
 
-        scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
-//        hangar = new IntoTheDeepSlides(hangingMotor, telemetry, null);
+//        scorer = new IntoTheDeepSlides(scoringMotor, telemetry, scoringTouchSensor);
         intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor, intakeSlidesTouchSensor, angleTouchSensor, telemetry);//WHAT THE SIGMA
 
         // Create the AprilTag processor the easy way.
@@ -137,6 +133,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //        telemetry.update();
 
         waitForStart();
+        clawServo.setPosition(0);
+        intakeServo.setPosition(1);
+        rotationServo.setPosition(0.7);
+        angleServo.setPosition(0.15);
 
         //Drive Motor direction init
         while (opModeIsActive()) {
@@ -307,27 +307,27 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //                        }
 //                        scorer.hookPosUp();
 //                    } else
-                    if (gamepad2.right_trigger > 0) {
-                        //moves scoring slides up
-                        scorer.up(gamepad2.right_trigger);
-                    } else if (gamepad2.left_trigger > 0) {
-                        //moves scoring slides down
-                        scorer.down(gamepad2.left_trigger);
-                    }else {
-                        //pauses the slides if no controls are being used
-                        scorer.stop();
-                    }
-                    //SCORING SLIDE CONTROLS ^^^^^
-
-                    //CLAW CONTROLS vvvvv
-                    if (gamepad2.x) {
-                        //open claw
-                        clawServo.setPosition(0);
-                    } else if (gamepad2.a) {
-                        //close claw
-                        clawServo.setPosition(1.1);
-                    }
-                    //CLAW CONTROLS ^^^^^
+//                    if (gamepad2.right_trigger > 0) {
+//                        //moves scoring slides up
+//                        scorer.up(gamepad2.right_trigger);
+//                    } else if (gamepad2.left_trigger > 0) {
+//                        //moves scoring slides down
+//                        scorer.down(gamepad2.left_trigger);
+//                    }else {
+//                        //pauses the slides if no controls are being used
+//                        scorer.stop();
+//                    }
+//                    //SCORING SLIDE CONTROLS ^^^^^
+//
+//                    //CLAW CONTROLS vvvvv
+//                    if (gamepad2.x) {
+//                        //open claw
+//                        clawServo.setPosition(0);
+//                    } else if (gamepad2.a) {
+//                        //close claw
+//                        clawServo.setPosition(1.1);
+//                    }
+//                    //CLAW CONTROLS ^^^^^
 
                     //INTAKE CONTROLS vvvvv
 //                    if (gamepad2.right_bumper){
