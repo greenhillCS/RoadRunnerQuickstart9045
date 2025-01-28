@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Auton;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(group="centerstage", name="forShowAuton")
+@Disabled
 public class forShowAuton extends LinearOpMode {
     public void runOpMode(){
         double[] startingPos = {-36.0, 70.0-(DriveConstants.BOT_LENGTH/2)};
