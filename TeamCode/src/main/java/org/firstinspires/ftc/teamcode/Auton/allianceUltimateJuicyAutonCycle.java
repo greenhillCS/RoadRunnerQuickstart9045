@@ -75,110 +75,110 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
 
         TrajectorySequence entrance =  drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score preload
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score preload
                 .splineTo(new Vector2d(5, -48), Math.toRadians(90))//Move robot to score preload
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open claw
-                .addTemporalMarker(0, ()->{intake.moveTo(0, scoreAngle);})//Move intake out of the way of the submersible
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(0, scoreAngle);})//Move intake out of the way of the submersible
 
                 .waitSeconds(1)
 
-                .addTemporalMarker(1.5, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
+                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
                 .lineToSplineHeading(new Pose2d(44, -41, Math.toRadians(75)))//Move robot to grab sample
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close claw on sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close claw on sample
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence pickup1 =  drive.trajectorySequenceBuilder(entrance.end())
-                .addTemporalMarker(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
                 .turn(Math.toRadians(-145))//Move robot to dispense sample
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
 
-                .addTemporalMarker(0, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
                 .turn(Math.toRadians(117))//Move robot to grab sample
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence pickup2 =  drive.trajectorySequenceBuilder(pickup1.end())
-                .addTemporalMarker(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
                 .turn(Math.toRadians(-117))//Move robot to dispense sample
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
 
-                .addTemporalMarker(0, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
                 .turn(Math.toRadians(105))//Move robot to grab sample
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence pickup3 =  drive.trajectorySequenceBuilder(pickup2.end())
-                .addTemporalMarker(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
                 .turn(Math.toRadians(-105))//Move robot to dispense sample
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence transition =  drive.trajectorySequenceBuilder(pickup3.end())
-                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
                 .lineToLinearHeading(new Pose2d(wallX, wallY, Math.toRadians(-90)))//Move robot to pickup specimen
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence score1 =  drive.trajectorySequenceBuilder(transition.end())
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
-                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
                 .lineTo(new Vector2d(4, scoreY))//Move robot to score specimen
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
 
-                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
                 .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence score2 =  drive.trajectorySequenceBuilder(score1.end())
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
-                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
                 .lineTo(new Vector2d(2, scoreY))//Move robot to score specimen
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
 
-                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
                 .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence score3 =  drive.trajectorySequenceBuilder(score2.end())
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
-                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
                 .lineTo(new Vector2d(0, scoreY))//Move robot to score specimen
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
 
-                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
                 .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
 
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence park =  drive.trajectorySequenceBuilder(score3.end())
-                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
-                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
                 .lineTo(new Vector2d(-2, scoreY))//Move robot to score specimen
-                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(1)
 
