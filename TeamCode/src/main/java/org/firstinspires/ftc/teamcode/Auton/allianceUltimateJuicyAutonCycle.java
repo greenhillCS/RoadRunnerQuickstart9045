@@ -31,6 +31,21 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
         SCORE4,
         PARK
     }
+    int scorePos = 0;
+    int scoreAngle = -1200;
+
+    int pickupPos = 0;
+    int pickupAngle = -5000;
+
+    int wallPos = 0;
+    int wallAngle = -4400;
+
+    int dispensePos = 0;
+    int dispenseAngle = -1000;
+
+    int scoreY = -48;
+    int wallX = 48;
+    int wallY = -58;
     STATE state = STATE.ENTRANCE;
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -49,52 +64,134 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
         Pose2d startPos = new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(90.00));
 
-        clawServo.setPosition(1);
+        clawServo.setPosition(0);
         rotationServo.setPosition(0.7);
-        angleServo.setPosition(0.5);
+        angleServo.setPosition(0);
 
         IntoTheDeepIntakeSystem intake = new IntoTheDeepIntakeSystem(slideMotor, jointMotor, slidesTouchSensor, jointTouchSensor, telemetry);
         intake.startPos();
-
-        clawServo.setPosition(1);
-        rotationServo.setPosition(0.7);
-        angleServo.setPosition(0.15);
 
         drive.setPoseEstimate(startPos);
 
 
         TrajectorySequence entrance =  drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score preload
+                .splineTo(new Vector2d(5, -48), Math.toRadians(90))//Move robot to score preload
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open claw
+                .addTemporalMarker(0, ()->{intake.moveTo(0, scoreAngle);})//Move intake out of the way of the submersible
+
+                .waitSeconds(1)
+
+                .addTemporalMarker(1.5, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
+                .lineToSplineHeading(new Pose2d(44, -41, Math.toRadians(75)))//Move robot to grab sample
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close claw on sample
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence pickup1 =  drive.trajectorySequenceBuilder(entrance.end())
+                .addTemporalMarker(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
+                .turn(Math.toRadians(-145))//Move robot to dispense sample
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+
+                .waitSeconds(1)
+
+                .addTemporalMarker(0, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
+                .turn(Math.toRadians(117))//Move robot to grab sample
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence pickup2 =  drive.trajectorySequenceBuilder(pickup1.end())
+                .addTemporalMarker(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
+                .turn(Math.toRadians(-117))//Move robot to dispense sample
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+
+                .waitSeconds(1)
+
+                .addTemporalMarker(0, ()->{intake.moveTo(pickupPos, pickupAngle);})//Move intake to grab sample
+                .turn(Math.toRadians(105))//Move robot to grab sample
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence pickup3 =  drive.trajectorySequenceBuilder(pickup2.end())
+                .addTemporalMarker(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
+                .turn(Math.toRadians(-105))//Move robot to dispense sample
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence transition =  drive.trajectorySequenceBuilder(pickup3.end())
+                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .lineToLinearHeading(new Pose2d(wallX, wallY, Math.toRadians(-90)))//Move robot to pickup specimen
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence score1 =  drive.trajectorySequenceBuilder(transition.end())
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .lineTo(new Vector2d(4, scoreY))//Move robot to score specimen
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+
+                .waitSeconds(1)
+
+                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence score2 =  drive.trajectorySequenceBuilder(score1.end())
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .lineTo(new Vector2d(2, scoreY))//Move robot to score specimen
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+
+                .waitSeconds(1)
+
+                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
+
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence score3 =  drive.trajectorySequenceBuilder(score2.end())
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .lineTo(new Vector2d(0, scoreY))//Move robot to score specimen
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
+
+                .waitSeconds(1)
+
+                .addTemporalMarker(0, ()->{intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
+
+                .waitSeconds(1)
                 .build();
 
-        TrajectorySequence score4 =  drive.trajectorySequenceBuilder(score3.end())
-                .build();
+        TrajectorySequence park =  drive.trajectorySequenceBuilder(score3.end())
+                .addTemporalMarker(0, ()->{clawServo.setPosition(0);})//Close Claw
+                .addTemporalMarker(0, ()->{intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .lineTo(new Vector2d(-2, scoreY))//Move robot to score specimen
+                .addTemporalMarker(0, ()->{clawServo.setPosition(1);})//Open Claw
 
-        TrajectorySequence park =  drive.trajectorySequenceBuilder(score4.end())
+                .waitSeconds(1)
+
+                .lineTo(new Vector2d(48, -58))//Move robot to park
+
+                .waitSeconds(1)
+
                 .build();
 
         waitForStart();
+
         drive.followTrajectorySequenceAsync(entrance);
+
         while (!isStopRequested() && opModeIsActive()){
             drive.update();
             switch(state){
@@ -129,6 +226,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 case TRANSITION:
                     //Moving the robot to pick up the first specimen
                     if(distanceSensor.getDistance(DistanceUnit.INCH)<6 && !drive.isBusy()) {
+                        drive.breakFollowing();
                         state = STATE.SCORE1;
                         drive.followTrajectorySequenceAsync(score1);
                     }
@@ -136,6 +234,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 case SCORE1:
                     //Scoring the first specimen and setting up to pick up the second specimen
                     if(distanceSensor.getDistance(DistanceUnit.INCH)<6 && !drive.isBusy()) {
+                        drive.breakFollowing();
                         state = STATE.SCORE2;
                         drive.followTrajectorySequenceAsync(score2);
                     }
@@ -143,20 +242,15 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 case SCORE2:
                     //Scoring the second specimen and setting up to pick up the third specimen
                     if(distanceSensor.getDistance(DistanceUnit.INCH)<6 && !drive.isBusy()) {
+                        drive.breakFollowing();
                         state = STATE.SCORE3;
                         drive.followTrajectorySequenceAsync(score3);
                     }
                     break;
                 case SCORE3:
-                    //Scoring the third specimen and setting up to pick up the fourth specimen
-                    if(distanceSensor.getDistance(DistanceUnit.INCH)<6 && !drive.isBusy()) {
-                        state = STATE.SCORE4;
-                        drive.followTrajectorySequenceAsync(score4);
-                    }
-                    break;
-                case SCORE4:
                     //Scoring the fourth specimen and setting up to pick up the fifth specimen
                     if(distanceSensor.getDistance(DistanceUnit.INCH)<6 && !drive.isBusy()) {
+                        drive.breakFollowing();
                         state = STATE.PARK;
                         drive.followTrajectorySequenceAsync(park);
                     }
@@ -164,7 +258,11 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 case PARK:
                     //Scoring the fifth specimen and parking
                     if(!drive.isBusy()) {
-                        intake.moveTo(0, jointMotor.getCurrentPosition());
+                        intake.startPos();
+                        clawServo.setPosition(0);
+                        rotationServo.setPosition(0.7);
+                        angleServo.setPosition(0);
+
                         PositionStorage.pose = drive.getPoseEstimate();
                         requestOpModeStop();
                         break;

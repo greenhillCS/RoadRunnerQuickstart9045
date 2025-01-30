@@ -26,7 +26,7 @@ public class MeepMeepTesting {
         double botLength = 17.323;
 
         double[] startingPos = {-12, 72-(botLength/2)};
-        double startHeading = Math.toRadian2s(-90);
+        double startHeading = Math.toRadians(-90);
 
         double pushDist = -57;
         double baseDist = -8.5;

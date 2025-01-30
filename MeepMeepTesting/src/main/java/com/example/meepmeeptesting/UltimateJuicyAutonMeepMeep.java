@@ -42,29 +42,29 @@ public class UltimateJuicyAutonMeepMeep {
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(12, -72+(botLength/2), Math.toRadians(90.00)))
-                                .lineToSplineHeading(new Pose2d(12, -34, Math.toRadians(90)))
+                                .splineTo(new Vector2d(5, -34), Math.toRadians(90))
                                 //start clip
                                 .lineToSplineHeading(new Pose2d(44, -41, Math.toRadians(75)))
                                 //grab 1
-                                .turn(Math.toRadians(15))
+                                .turn(Math.toRadians(-145)) //15
                                 //drop 1
-                                .turn(Math.toRadians(-45))
+                                .turn(Math.toRadians(117)) //45
                                 //grab 2
-                                .turn(Math.toRadians(45))
+                                .turn(Math.toRadians(-117))
                                 //drop 2
-                                .turn(Math.toRadians(-57))
+                                .turn(Math.toRadians(105))
                                 //grab 3
-                                .turn(Math.toRadians(57))
+                                .turn(Math.toRadians(-105))
                                 //drop 3
-                                .lineTo(new Vector2d(48, -48))
+                                .lineToLinearHeading(new Pose2d(48, -58, Math.toRadians(-90)))
                                 .lineTo(new Vector2d(4, -48))
-                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(48, -58))
                                 .lineTo(new Vector2d(2, -48))
-                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(48, -58))
                                 .lineTo(new Vector2d(0, -48))
-                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(48, -58))
                                 .lineTo(new Vector2d(-2, -48))
-                                .lineTo(new Vector2d(48, -48))
+                                .lineTo(new Vector2d(48, -58))
                                 .lineTo(new Vector2d(-4, -48))
                                 .lineToSplineHeading(new Pose2d(44, -60, Math.toRadians(90)))
                                 .build()
