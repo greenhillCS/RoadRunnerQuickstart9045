@@ -74,12 +74,12 @@ public class IntoTheDeepIntakeSystem {
     }
     public void moveTo(int pos, int angle){
         wasControlled = false;
-        joint.setTargetPosition(angle);
-        joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        joint.setPower(1);
         slides.setTargetPosition(pos);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slides.setPower(1);
+        joint.setTargetPosition(angle);
+        joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        joint.setPower(1);
         isBusy = true;
     }
     public void startPos(){
@@ -116,7 +116,7 @@ public class IntoTheDeepIntakeSystem {
         joint.setPower(0);
         joint.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         joint.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        joint.setTargetPosition(-1000);
+        joint.setTargetPosition(-1500);
         joint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joint.setPower(1);
         while(joint.isBusy()){

@@ -133,10 +133,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 //        telemetry.update();
 
         waitForStart();
-        clawServo.setPosition(0);
-        intakeServo.setPosition(1);
-        rotationServo.setPosition(0.7);
-        angleServo.setPosition(0.15);
+//        clawServo.setPosition(0);
+//        intakeServo.setPosition(1);
+//        rotationServo.setPosition(0.7);
+//        angleServo.setPosition(0.15);
 
         //Drive Motor direction init
         while (opModeIsActive()) {
