@@ -147,61 +147,61 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     y = drive.getPoseEstimate().getY();
                     h = drive.getPoseEstimate().getHeading();
 
-                    /*WAYPOINT CONTROLS vvvvv
-                    if (gamepad1.a && !gamepad1.start) {
-                        //Ascent Zone Waypoint Logic----------------------------------------------------------
-                        telemetry.addData("Moving To:", "Ascent Zone");
-                        if (y <= -24){
-                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                    .lineToSplineHeading(new Pose2d(-48, -36, Math.toRadians(0)))
-                                    .build());
-                        }
-                        if (y <= 24){
-                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                    .lineToSplineHeading(new Pose2d(-48, 36, Math.toRadians(0)))
-                                    .build());
-                        }
-                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .splineToLinearHeading(new Pose2d(-22.5, -12, h), Math.toRadians(0))
-                                .build());
-                        //Debounce
-                        while(gamepad1.a){
-                            continue;
-                        }
-                        currentMode = Mode.AUTOMATIC_CONTROL;
-                    } else if (gamepad1.b && !gamepad1.start) {
-                        //Net Zone Waypoint Logic----------------------------------------------------------
-                        telemetry.addData("Moving To:", "Net Zone");
-                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .lineToSplineHeading(new Pose2d(-51.5, -53, Math.toRadians(225)))
-                                .build());
-                        //Debounce
-                        while(gamepad1.b){
-                            continue;
-                        }
-                        currentMode = Mode.AUTOMATIC_CONTROL;
-                    }
-                    if (gamepad1.x) {
-                        //Submersible Zone Waypoint Logic----------------------------------------------------------
-                        telemetry.addData("Moving To:", "Submersible Zone");
-                        if (y >= -36 && x < 0){
-                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                    .lineToSplineHeading(new Pose2d(-36, -36, Math.toRadians(90)))
-                                    .build());
-                        } else if (y >= -36 && x > 0){
-                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                    .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(90)))
-                                    .build());
-                        }
-                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
-                                .lineToSplineHeading(new Pose2d(0, -32, Math.toRadians(90)))
-                                .build());
-                        // Debounce
-                        while(gamepad1.x){
-                            continue;
-                        }
-                        currentMode = Mode.AUTOMATIC_CONTROL;
-                    }
+                    //WAYPOINT CONTROLS vvvvv
+//                    if (gamepad1.a && !gamepad1.start) {
+//                        //Ascent Zone Waypoint Logic----------------------------------------------------------
+//                        telemetry.addData("Moving To:", "Ascent Zone");
+//                        if (y <= -24){
+//                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                    .lineToSplineHeading(new Pose2d(-48, -36, Math.toRadians(0)))
+//                                    .build());
+//                        }
+//                        if (y <= 24){
+//                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                    .lineToSplineHeading(new Pose2d(-48, 36, Math.toRadians(0)))
+//                                    .build());
+//                        }
+//                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                .splineToLinearHeading(new Pose2d(-22.5, -12, h), Math.toRadians(0))
+//                                .build());
+//                        //Debounce
+//                        while(gamepad1.a){
+//                            continue;
+//                        }
+//                        currentMode = Mode.AUTOMATIC_CONTROL;
+//                    } else if (gamepad1.b && !gamepad1.start) {
+//                        //Net Zone Waypoint Logic----------------------------------------------------------
+//                        telemetry.addData("Moving To:", "Net Zone");
+//                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                .lineToSplineHeading(new Pose2d(-51.5, -53, Math.toRadians(225)))
+//                                .build());
+//                        //Debounce
+//                        while(gamepad1.b){
+//                            continue;
+//                        }
+//                        currentMode = Mode.AUTOMATIC_CONTROL;
+//                    }
+//                    if (gamepad1.x) {
+//                        //Submersible Zone Waypoint Logic----------------------------------------------------------
+//                        telemetry.addData("Moving To:", "Submersible Zone");
+//                        if (y >= -36 && x < 0){
+//                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                    .lineToSplineHeading(new Pose2d(-36, -36, Math.toRadians(90)))
+//                                    .build());
+//                        } else if (y >= -36 && x > 0){
+//                            drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                    .lineToSplineHeading(new Pose2d(36, -36, Math.toRadians(90)))
+//                                    .build());
+//                        }
+//                        drive.followTrajectoryAsync(drive.trajectoryBuilder(drive.getPoseEstimate())
+//                                .lineToSplineHeading(new Pose2d(0, -32, Math.toRadians(90)))
+//                                .build());
+//                        // Debounce
+//                        while(gamepad1.x){
+//                            continue;
+//                        }
+//                        currentMode = Mode.AUTOMATIC_CONTROL;
+//                    }
                     if (gamepad1.y) {
                         // Observation Zone Waypoint Logic----------------------------------------------------------
                         telemetry.addData("Moving To:", "Observation Zone");
@@ -243,7 +243,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         rightBackDrive.setPower(rightBackPower * MAX_SPEED);
                     }
                     //WAYPOINT CONTROLS ^^^^^
-*/
+
                     //DRIVE CONTROLS vvvvv
                     double max;
                     double axial = -gamepad1.left_stick_y;
@@ -363,25 +363,19 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     if(gamepad2.b && !gamepad2.start){
                         //moves intake system to grab from the wall
                         intakeServo.setPosition(1);
-                        intake.moveTo(0, -1750);
+                        intake.moveTo(0, -3800);
                         angleServo.setPosition(0.4);
                         rotationServo.setPosition(0.7);
-                    }else if(gamepad2.y) {
-                        //hook specimen
+                    }else if(gamepad2.y){
+                        //moves intake system to score
                         intakeServo.setPosition(0);
-                        intake.moveTo(5000, -1390);
-                        angleServo.setPosition(0.55);
-                        rotationServo.setPosition(0.7);
-                    }else if(gamepad2.y) {
-                        //intake sample
-                        intakeServo.setPosition(0);
-                        intake.moveTo(2800, -5000);
+                        intake.moveTo(0, -1500);
                         angleServo.setPosition(0.55);
                         rotationServo.setPosition(0.7);
                     } else if(gamepad2.back){
                         //moves intake system to pick up from the submersible
                         intakeServo.setPosition(1);
-                        intake.moveTo(0, -2050);
+                        intake.moveTo(0, -4500);
                         angleServo.setPosition(0.15);
                         rotationServo.setPosition(0.7);
                     }
