@@ -32,16 +32,16 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
         PARK
     }
     int scorePos = 900;
-    int scoreAngle = -900;
+    int scoreAngle = -950;
 
     int pickupPos1 = 0;
     int pickupPos2 = 200;
     int pickupPos3 = 0;
-    int pickupAngle = -4490;
+    int pickupAngle = -4550;
     int dispensePos = 900;
 
     int wallPos = 0;
-    int wallAngle = -4200;
+    int wallAngle = -4250;
 
     int scoreY = -36;
     int wallX = 48;
