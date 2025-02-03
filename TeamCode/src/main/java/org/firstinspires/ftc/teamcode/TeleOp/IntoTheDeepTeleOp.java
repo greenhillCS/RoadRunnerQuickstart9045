@@ -363,21 +363,23 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     if(gamepad2.b && !gamepad2.start){
                         //moves intake system to grab from the wall
                         intakeServo.setPosition(1);
-                        intake.moveTo(0, -3800);
+                        intake.moveTo(0, -4200);
                         angleServo.setPosition(0.4);
                         rotationServo.setPosition(0.7);
                     }else if(gamepad2.y){
                         //moves intake system to score
                         intakeServo.setPosition(0);
-                        intake.moveTo(0, -1500);
-                        angleServo.setPosition(0.55);
-                        rotationServo.setPosition(0.7);
-                    } else if(gamepad2.back){
+                        intake.moveTo(900, -850);
+                        angleServo.setPosition(0.4);
+                        rotationServo.setPosition(0.05);
+                    } else if(gamepad2.x){
                         //moves intake system to pick up from the submersible
                         intakeServo.setPosition(1);
-                        intake.moveTo(0, -4500);
-                        angleServo.setPosition(0.15);
+                        intake.moveTo(200, -4400);
+                        angleServo.setPosition(0.1);
                         rotationServo.setPosition(0.7);
+                    }else if(gamepad2.back){
+                        intake.startPos();
                     }
                     //updates intake slides and angler
                     intake.update(gamepad2);
@@ -418,6 +420,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             telemetry.addData("Joint Power", jointMotor.getPower());
             telemetry.addData("Intake Encoder", intakeMotor.getCurrentPosition());
             telemetry.addData("Intake Power", intakeMotor.getPower());
+            telemetry.addData("Claw Pos", intakeServo.getPosition());
+            telemetry.addData("Rotation Pos", rotationServo.getPosition());
+            telemetry.addData("Angle Pos", angleServo.getPosition());
 //            telemetry.addData("April Tag Poses", vision.getAprilTagPoses());
             telemetry.update();
         }

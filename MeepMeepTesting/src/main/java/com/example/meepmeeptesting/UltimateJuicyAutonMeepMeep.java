@@ -27,7 +27,7 @@ public class UltimateJuicyAutonMeepMeep {
         System.out.print(parentDirectory+"\\field-2024-juice-dark.png");
         try { img = ImageIO.read(new File(parentDirectory+"\\MeepMeepTesting\\src\\main\\java\\com\\example\\meepmeeptesting\\field-2024-juice-dark.png")); }
         catch (IOException e) {}
-        double trackWidth = 16.33858;
+        double trackWidth = 18.63;
 
         double botLength = 16.33858;
 
@@ -37,11 +37,12 @@ public class UltimateJuicyAutonMeepMeep {
         MeepMeep meepMeep = new MeepMeep(800);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Required: Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(64, 64, Math.toRadians(60), 4.467498059104943, trackWidth)
+                .setConstraints(64, 64, 4.9, Math.toRadians(360), trackWidth)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(12, -72+(botLength/2), Math.toRadians(90.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(12, -72+(botLength/2), Math.toRadians(-90.00)))
+                                .setReversed(true)
                                 .splineTo(new Vector2d(5, -34), Math.toRadians(90))
                                 //start clip
                                 .lineToSplineHeading(new Pose2d(44, -41, Math.toRadians(75)))

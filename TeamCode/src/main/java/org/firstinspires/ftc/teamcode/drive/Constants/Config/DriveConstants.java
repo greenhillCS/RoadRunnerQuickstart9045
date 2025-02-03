@@ -8,5 +8,5 @@ import org.firstinspires.ftc.teamcode.drive.Constants.DriveConstantsComp;
 import org.firstinspires.ftc.teamcode.drive.Constants.DriveConstantsCompTiger;
 import org.firstinspires.ftc.teamcode.drive.Constants.DriveConstantsWideBot;
 
-public class DriveConstants extends DriveConstantsComp // <-----
+public class DriveConstants extends DriveConstantsCompTiger // <-----
 {}
