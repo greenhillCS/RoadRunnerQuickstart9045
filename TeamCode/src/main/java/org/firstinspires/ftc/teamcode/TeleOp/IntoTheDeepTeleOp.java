@@ -373,7 +373,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         angleServo.setPosition(0.4);
                         rotationServo.setPosition(0.05);
                     } else if(gamepad2.x){
-                        //moves intake system to pick up from the submersible
+                        //moves intake system to pick up from the centeral sub
                         intakeServo.setPosition(1);
                         intake.moveTo(200, -4400);
                         angleServo.setPosition(0.1);
