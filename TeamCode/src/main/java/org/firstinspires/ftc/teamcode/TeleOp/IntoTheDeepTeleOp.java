@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -64,7 +65,13 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-
+    Servo intakeServo;
+    Servo rotationServo;
+    Servo angleServo;
+    void clawControl(double angle, double rotation){
+        angleServo.setPosition(angle);
+        rotationServo.setPosition(rotation);
+    }
     private double accelerate(double currentPower, double targetPower, double acceleration){
         if (currentPower < targetPower) {
             return Math.min(currentPower + acceleration, targetPower);
@@ -95,17 +102,17 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         //DC Motor init
-        DcMotor scoringMotor = hardwareMap.get(DcMotor.class, "SM");//port 0
+        DcMotor scoringMotor = hardwareMap.get(DcMotorEx.class, "SM");//port 0
 //        DcMotor hangingMotor = hardwareMap.get(DcMotor.class, "HM");
-        DcMotor jointMotor = hardwareMap.get(DcMotor.class, "JM");//port 2
-        DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "IM");//port 3
+        DcMotor jointMotor = hardwareMap.get(DcMotorEx.class, "JM");//port 2
+        DcMotor intakeMotor = hardwareMap.get(DcMotorEx.class, "IM");//port 3
 
         //Servo Motor init
         Servo clawServo = hardwareMap.get(Servo.class, "CS");//port 0
 //        CRServo intakeServo = hardwareMap.get(CRServo.class, "IS");
-        Servo intakeServo = hardwareMap.get(Servo.class, "IS");//port 1
-        Servo rotationServo = hardwareMap.get(Servo.class, "RS");//port 3
-        Servo angleServo = hardwareMap.get(Servo.class, "AS");//port 2
+        intakeServo = hardwareMap.get(Servo.class, "IS");//port 1
+        rotationServo = hardwareMap.get(Servo.class, "RS");//port 3
+        angleServo = hardwareMap.get(Servo.class, "AS");//port 2
 
 
         RevTouchSensor scoringTouchSensor = hardwareMap.get(RevTouchSensor.class, "TS");//port 1
@@ -363,23 +370,25 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     if(gamepad2.b && !gamepad2.start){
                         //moves intake system to grab from the wall
                         intakeServo.setPosition(1);
-                        intake.moveTo(0, -4250);
-                        angleServo.setPosition(0.4);
-                        rotationServo.setPosition(0.7);
+                        intake.moveTo(0, -4000);
+                        angleServo.setPosition(0.7);
+                        rotationServo.setPosition(0.3);
                     }else if(gamepad2.y){
                         //moves intake system to score
                         intakeServo.setPosition(0);
                         intake.moveTo(900, -850);
-                        angleServo.setPosition(0.4);
-                        rotationServo.setPosition(0.05);
+                        angleServo.setPosition(0.8);
+                        rotationServo.setPosition(1);
                     } else if(gamepad2.x){
                         //moves intake system to pick up from the submersible
                         intakeServo.setPosition(1);
-                        intake.moveTo(200, -4400);
-                        angleServo.setPosition(0.1);
-                        rotationServo.setPosition(0.7);
+                        intake.moveTo(400, -4540);
+                        angleServo.setPosition(0.55);
+                        rotationServo.setPosition(0.3);
                     }else if(gamepad2.back){
                         intake.startPos();
+                        clawServo.setPosition(0);
+                        clawControl(0, 0.3);
                     }
                     //updates intake slides and angler
                     intake.update(gamepad2);

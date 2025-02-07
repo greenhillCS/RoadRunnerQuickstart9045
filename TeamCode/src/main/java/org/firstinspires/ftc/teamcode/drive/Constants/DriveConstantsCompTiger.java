@@ -35,7 +35,8 @@ public class DriveConstantsCompTiger {
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 18.63; // in 19.55 17.71
-    public static double BOT_LENGTH = 17.5;
+    public static double BOT_LENGTH = 17;
+    public static double BOT_WIDTH = 18;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
