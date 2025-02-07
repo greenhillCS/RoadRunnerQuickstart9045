@@ -363,7 +363,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     if(gamepad2.b && !gamepad2.start){
                         //moves intake system to grab from the wall from the human player
                         intakeServo.setPosition(1);
-                        intake.moveTo(0, -4199);
+                        intake.moveTo(0, -4200);
                         angleServo.setPosition(0.4);
                         rotationServo.setPosition(0.7);
                     }else if(gamepad2.y){
