@@ -32,22 +32,22 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
         PARK
     }
     int scorePos = 1000;
-    int scoreAngle = -750;
+    int scoreAngle = -760;
 
     int pickupPos1 = 0;
     int pickupPos2 = 220;
     int pickupPos3 = 0;
-    int pickupAngle = -4510;
+    int pickupAngle = -4490;
 
     int dispensePos = 1200;
     int dispenseAngle = -4000;
 
     int wallPos = 0;
-    int wallAngle = -4100;
+    int wallAngle = -4000;
 
     int scoreY = -32;
     int wallX = 48;
-    double wallY = -72+(DriveConstants.BOT_LENGTH/2)+11;
+    double wallY = -72+(DriveConstants.BOT_LENGTH/2)+10.2;
 
     STATE state = STATE.ENTRANCE;
     boolean activateDistance = false;
@@ -89,7 +89,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
         TrajectorySequence entrance =  drive.trajectorySequenceBuilder(drive.getPoseEstimate())
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score preload
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score preload
                 .setReversed(true)
                 .waitSeconds(0.25)
                 .splineTo(new Vector2d(5, scoreY), Math.toRadians(90))//Move robot to score preload
@@ -98,24 +98,12 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
                 .waitSeconds(0.25)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.55, 0.3);intake.moveTo(pickupPos1, pickupAngle);})//Move intake to grab sample
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.43, 0.3);intake.moveTo(pickupPos1, pickupAngle);})//Move intake to grab sample
                 .lineToSplineHeading(new Pose2d(44, -42, Math.toRadians(75)))//Move robot to grab sample
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close claw on sample
 
                 .waitSeconds(0.3)
                 .build();
-
-
-//                .addTemporalMarker(0, ()->{clawControl(0.4, 0.05);intake.moveTo(scorePos, scoreAngle);})//Move intake to score preload
-//                .setReversed(true)
-//                .splineTo(new Vector2d(5, scoreY), Math.toRadians(90))//Move robot to score preload
-//                .addTemporalMarker(.5, ()->{clawServo.setPosition(1);})//Open claw
-//                .addTemporalMarker(.5, ()->{intake.moveTo(0, scoreAngle);})//Move intake out of the way of the submersible
-//                .addTemporalMarker(1.5, ()->{clawControl(0.1, 0.7);intake.moveTo(0, pickupAngle);})//Move intake to grab sample
-//                .lineToSplineHeading(new Pose2d(44, -41, Math.toRadians(75)))//Move robot to grab sample
-//                .addTemporalMarker(1.5, ()->{clawServo.setPosition(0);})//Close claw on sample
-
-//                .build();
 
         TrajectorySequence pickup1 =  drive.trajectorySequenceBuilder(entrance.end())
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
@@ -133,7 +121,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
         TrajectorySequence pickup2 =  drive.trajectorySequenceBuilder(pickup1.end())
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{intake.moveTo(dispensePos, dispenseAngle);})//Move intake to dispense sample
-                .turn(Math.toRadians(-125))//Move robot to dispense sample
+                .turn(Math.toRadians(-145))//Move robot to dispense sample
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
 
                 .waitSeconds(0.25)
@@ -152,8 +140,8 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 .build();
 
         TrajectorySequence transition =  drive.trajectorySequenceBuilder(pickup2.end())
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 0.3);intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
-                .lineToLinearHeading(new Pose2d(wallX, wallY, Math.toRadians(-90)))//Move robot to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 0.3);intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .forward(-wallY-42)//Move robot to pickup specimen
                 .UNSTABLE_addTemporalMarkerOffset(-0.25, ()->{activateDistance = true;})//Activate distance sensor
                 .waitSeconds(0.5)
                 .build();
@@ -165,16 +153,17 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
                 .waitSeconds(0.25)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, wallAngle+200);})//Lift specimen off the wall
-                .UNSTABLE_addTemporalMarkerOffset(0.25, ()->{clawControl(0.8, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
-                .lineTo(new Vector2d(4, scoreY))//Move robot to score specimen
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, scoreAngle);})//Move intake out of the way of the submersible
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .waitSeconds(0.5)
+                .lineTo(new Vector2d(0, -48))//Move to intermediary point
+                .lineTo(new Vector2d(-4, scoreY))//Move robot to score specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);intake.moveTo(wallPos, scoreAngle);})//Open Claw and move intake out of the way of the submersible
 
                 .waitSeconds(0.5)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 0.3);intake.moveTo(wallPos, wallAngle);activateDistance = true;})//Move intake to pickup specimen
-                .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 0.3);intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .lineTo(new Vector2d(wallX, wallY+4))//Move robot to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(-0.25, ()->{activateDistance = true;})//Activate distance sensor
 
                 .waitSeconds(0.5)
                 .build();
@@ -186,15 +175,19 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
                 .waitSeconds(0.25)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
-                .lineTo(new Vector2d(2, scoreY))//Move robot to score specimen
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, scoreAngle);})//Move intake out of the way of the submersible
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
 
                 .waitSeconds(0.5)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 0.3);intake.moveTo(wallPos, wallAngle);activateDistance = true;})//Move intake to pickup specimen
-                .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
+                .lineTo(new Vector2d(0, -48))//Move to intermediary point
+                .lineTo(new Vector2d(-3, scoreY))//Move robot to score specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);intake.moveTo(wallPos, scoreAngle);})//Open Claw and move intake out of the way of the submersible
+
+                .waitSeconds(0.5)
+
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 0.3);intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
+                .lineTo(new Vector2d(wallX, wallY+8))//Move robot to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(-0.25, ()->{activateDistance = true;})//Activate distance sensor
 
                 .waitSeconds(0.5)
                 .build();
@@ -205,24 +198,37 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
 
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
-                .lineTo(new Vector2d(0, scoreY))//Move robot to score specimen
+
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+                .lineTo(new Vector2d(0, -48))//Move to intermediary point
+                .lineTo(new Vector2d(-2, scoreY))//Move robot to score specimen
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{intake.moveTo(wallPos, scoreAngle);})//Move intake out of the way of the submersible
 
                 .waitSeconds(0.5)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 0.3);intake.moveTo(wallPos, wallAngle);activateDistance = true;})//Move intake to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 0.3);intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
                 .lineTo(new Vector2d(wallX, wallY))//Move robot to pickup specimen
+                .UNSTABLE_addTemporalMarkerOffset(-0.25, ()->{activateDistance = true;})//Activate distance sensor
 
                 .waitSeconds(0.5)
                 .build();
 
-        TrajectorySequence park =  drive.trajectorySequenceBuilder(score3.end())
+        TrajectorySequence park =  drive.trajectorySequenceBuilder(score2.end())
+
+                .waitSeconds(0.5)
+
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(0);})//Close Claw
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.8, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+
+                .waitSeconds(0.25)
+
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 1);intake.moveTo(scorePos, scoreAngle);})//Move intake to score specimen
+
+                .waitSeconds(0.5)
+
+                .lineTo(new Vector2d(0, -48))//Move to intermediary point
                 .lineTo(new Vector2d(-2, scoreY))//Move robot to score specimen
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);})//Open Claw
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawServo.setPosition(1);intake.moveTo(0, scoreAngle);})//Open Claw and move intake out of the way of the submersible
 
                 .waitSeconds(0.25)
 
@@ -267,7 +273,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                     break;
                 case TRANSITION:
                     //Moving the robot to pick up the first specimen
-                    if((distanceSensor.getDistance(DistanceUnit.INCH)<14 && activateDistance) || !drive.isBusy()) {
+                    if((distanceSensor.getDistance(DistanceUnit.INCH)<16 && activateDistance) || !drive.isBusy()) {
                         drive.breakFollowing();
                         state = STATE.SCORE1;
                         activateDistance = false;
@@ -287,14 +293,14 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                     //Scoring the second specimen and setting up to pick up the third specimen
                     if((distanceSensor.getDistance(DistanceUnit.INCH)<16 && activateDistance) || !drive.isBusy()) {
                         drive.breakFollowing();
-                        state = STATE.SCORE3;
+                        state = STATE.PARK;
                         activateDistance = false;
-                        drive.followTrajectorySequenceAsync(score3);
+                        drive.followTrajectorySequenceAsync(park);
                     }
                     break;
                 case SCORE3:
                     //Scoring the fourth specimen and setting up to pick up the fifth specimen
-                    if((distanceSensor.getDistance(DistanceUnit.INCH)<16 && activateDistance) || !drive.isBusy()) {
+                    if((distanceSensor.getDistance(DistanceUnit.INCH)<14 && activateDistance) || !drive.isBusy()) {
                         drive.breakFollowing();
                         state = STATE.PARK;
                         activateDistance = false;
