@@ -36,8 +36,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
 
     int pickupPos1 = 0;
     int pickupPos2 = 220;
-    int pickupPos3 = 0;
-    int pickupAngle = -4490;
+    int pickupAngle = -4430;
 
     int dispensePos = 1200;
     int dispenseAngle = -4000;
@@ -45,9 +44,9 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
     int wallPos = 0;
     int wallAngle = -4000;
 
-    int scoreY = -32;
+    int scoreY = -31;
     int wallX = 48;
-    double wallY = -72+(DriveConstants.BOT_LENGTH/2)+10.2;
+    double wallY = -72+(DriveConstants.BOT_LENGTH/2)+10;
 
     STATE state = STATE.ENTRANCE;
     boolean activateDistance = false;
@@ -186,7 +185,7 @@ public class allianceUltimateJuicyAutonCycle extends LinearOpMode {
                 .waitSeconds(0.5)
 
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{clawControl(0.7, 0.3);intake.moveTo(wallPos, wallAngle);})//Move intake to pickup specimen
-                .lineTo(new Vector2d(wallX, wallY+8))//Move robot to pickup specimen
+                .lineTo(new Vector2d(wallX, wallY+4))//Move robot to pickup specimen
                 .UNSTABLE_addTemporalMarkerOffset(-0.25, ()->{activateDistance = true;})//Activate distance sensor
 
                 .waitSeconds(0.5)
