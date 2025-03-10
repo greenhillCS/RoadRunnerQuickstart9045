@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepIntakeSystem;
 
-@TeleOp(group="intothedeep", name="IntoTheDeepTeleOp")
-public class TeleOp_A extends LinearOpMode {
+@TeleOp(group="Team C TeleOp", name="ABCD TeleOps")
+public class TeleOp_C extends LinearOpMode {
 
     private static final double ACCELERATION = 0.2;
     private static final double MAX_SPEED = 1.0; // Adjust this value for your desired speed
