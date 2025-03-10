@@ -72,7 +72,7 @@ public class TeleOp_C extends LinearOpMode {
         RevTouchSensor angleTouchSensor = hardwareMap.get(RevTouchSensor.class, "TA");//port 5
 
         intake = new IntoTheDeepIntakeSystem(intakeMotor, jointMotor, intakeSlidesTouchSensor, angleTouchSensor, telemetry);//WHAT THE SIGMA
-        clawCode = new ClawCode_C(hardwareMap);
+        clawCode = new ClawCode_C(hardwareMap, telemetry);
 
         waitForStart();
 
