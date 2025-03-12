@@ -45,7 +45,7 @@ public class ClawCode_D {
     private String currentState;
 
 
-    public ClawCode_D(HardwareMap hardwareMap, Telemetry telemetry){
+    public ClawCode_D(HardwareMap hardwareMap, Telemetry telemetry) {
         servo = hardwareMap.get(Servo.class, "CLAW");
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "CS");
         sensorDistance = hardwareMap.get(DistanceSensor.class, "DS");
@@ -55,14 +55,14 @@ public class ClawCode_D {
         Color.colorToHSV(colors.toColor(), hsvValues);
 
 
-
     }
-    public void update(){
-        switch(currentState){
+
+    public void update() {
+        switch (currentState) {
             case "Open":
                 //define var
                 //loop to check conditions
-                if(hsvValues[0]>200 && sensorDistance.getDistance(DistanceUnit.CM) < 10){
+                if (hsvValues[0] > 200 && sensorDistance.getDistance(DistanceUnit.CM) < 10) {
                     servo.setPosition(1);
                     currentState = "FULLTOBURSTING";
                     //tell it to do something and switch to other case
@@ -70,7 +70,7 @@ public class ClawCode_D {
                 break;
 
             case "FULLTOBURSTING":
-                if(sensorDistance.getDistance(DistanceUnit.CM) > 20){
+                if (sensorDistance.getDistance(DistanceUnit.CM) > 20) {
                     servo.setPosition(0);
                     currentState = "Open";
                 }
