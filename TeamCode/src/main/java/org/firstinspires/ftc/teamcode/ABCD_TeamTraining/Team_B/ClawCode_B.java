@@ -27,8 +27,8 @@ public class ClawCode_B{
     public ClawCode_B(HardwareMap hardwareMap) {
         currentState = "IDLE";
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
-        servo = hardwareMap.get(Servo.class, "left_hand");
-        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "SensorD");
+        servo = hardwareMap.get(Servo.class, "IS");
+        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "DS");
     }
 
     public void update(){
