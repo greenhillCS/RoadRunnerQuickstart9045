@@ -21,7 +21,7 @@ public class ClawCode_A {
     public ClawCode_A(HardwareMap hardwareMap, Telemetry telemetry) {
         currentState = "IDLE";
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
-        clawServo = hardwareMap.get(Servo.class, "left_hand");
+        clawServo = hardwareMap.get(Servo.class, "IS");
         if (colorSensor instanceof SwitchableLight) {
             ((SwitchableLight)colorSensor).enableLight(true);
         }
