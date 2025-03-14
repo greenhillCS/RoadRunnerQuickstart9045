@@ -46,8 +46,8 @@ public class ClawCode_D {
 
 
     public ClawCode_D(HardwareMap hardwareMap, Telemetry telemetry) {
-        servo = hardwareMap.get(Servo.class, "CLAW");
-        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "CS");
+        servo = hardwareMap.get(Servo.class, "IS");
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, ("sensor_color"));
         sensorDistance = hardwareMap.get(DistanceSensor.class, "DS");
         NormalizedRGBA colors = colorSensor.getNormalizedColors();
 
