@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Config.IntoTheDeepIntakeSystem;
 
-@TeleOp(group="Team C TeleOp", name="ABCD TeleOps")
+@TeleOp(name="Team C TeleOp", group="ABCD TeleOps")
 public class TeleOp_C extends LinearOpMode {
 
     private static final double ACCELERATION = 0.2;
