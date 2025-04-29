@@ -1,0 +1,37 @@
+public class ClawCode_B{
+    Rev2mDistanceSensor distanceSensor;
+    private String currentState;
+    Servo servo;
+    NormalizedColorSensor colorSensor;
+    final float[] hsvValues = new float[3];
+    public ClawCode_B(HardwareMap hardwareMap) {
+        currentState = "IDLE";
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "sensor_color");
+        servo = hardwareMap.get(Servo.class, "IS");
+        distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "DS");
+    }
+
+    public void update(){
+        switch (currentState){
+            case "IDLE":
+                NormalizedRGBA colors = colorSensor.getNormalizedColors();
+                Color.colorToHSV(colors.toColor(), hsvValues);
+                if (hsvValues[0]>60){
+                    servo.setPosition(0);
+                }else {servo.setPosition(1);}
+                break;
+            case "GRABBED":
+                if (distanceSensor.getDistance(DistanceUnit.CM)<20 ){servo.setPosition(1);
+
+                }
+
+
+
+                break;
+
+            default:
+                break;
+        }
+    }
+    // todo: write your code here
+}
