@@ -20,30 +20,23 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous(name = "tigersquarecode")
 public class tigersquarejava extends LinearOpMode {
 
-    Servo clawServo;
-    Servo rotationServo;
-    Servo angleServo;
     TrajectorySequence cycle1;
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        RevTouchSensor slidesTouchSensor = hardwareMap.get(RevTouchSensor.class, "TI");
-        RevTouchSensor jointTouchSensor = hardwareMap.get(RevTouchSensor.class, "TA");
-
-        Rev2mDistanceSensor distanceSensor = hardwareMap.get(Rev2mDistanceSensor.class, "DS");
-
-        Pose2d startPos = new Pose2d(60, -67+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90.00));
-
-        clawServo.setPosition(0);
+        Pose2d startPos = new Pose2d(55, -67+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90.00));
 
 
         cycle1 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .setReversed(true)
-                .lineTo(new Vector2d(60, 60))
-                .lineTo(new Vector2d(-60, 60))
-                .lineTo(new Vector2d(-60, -60))
-                .lineTo(new Vector2d(60, -60))
+                .lineTo(new Vector2d(55, 55))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(-55, 55))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(-55, -55))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(55, -55))
                 .build();
 
         drive.setPoseEstimate(startPos);

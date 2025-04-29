@@ -14,11 +14,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class TigerMeepMeepSquare {
+public class TejExceelectAmaazingSqaureAutonomweous {
 
     public static void main(String[] args) {
+        // Declare a MeepMeep instance
+        // With a field size of 800 pixels
         Image img = null;
-        String classPath = UltimateJuicyAutonMeepMeep.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String classPath = TejExceelectAmaazingSqaureAutonomweous.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         File classFile = new File(classPath);
         File parentDirectory = classFile.getParentFile().getParentFile().getParentFile().getParentFile().getParentFile();
         System.out.print(parentDirectory+"\\field-2024-juice-dark.png");
@@ -28,7 +30,7 @@ public class TigerMeepMeepSquare {
 
         double botLength = 16.33858;
 
-        double[] startingPos = {60, -60};
+        double[] startingPos = {-36, 68-(botLength/2)};
         double startHeading = Math.toRadians(90);
 
         MeepMeep meepMeep = new MeepMeep(800);
@@ -38,15 +40,20 @@ public class TigerMeepMeepSquare {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(55, -67+(botLength/2), Math.toRadians(-90.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(56, -56, Math.toRadians(90.00)))
                                 .setReversed(true)
-                                .lineTo(new Vector2d(55, 55))
-                                .turn(Math.toRadians(90))
-                                .lineTo(new Vector2d(-55, 55))
-                                .turn(Math.toRadians(90))
-                                .lineTo(new Vector2d(-55, -55))
-                                .turn(Math.toRadians(90))
-                                .lineTo(new Vector2d(55, -55))
+                                .lineToSplineHeading(new Pose2d(56,56, Math.toRadians(180) ))
+
+
+                                .lineToSplineHeading(new Pose2d(-56,56, Math.toRadians(270) ))
+
+
+                                .lineToSplineHeading(new Pose2d(-56,-56, Math.toRadians(360) ))
+
+
+                                .lineToSplineHeading(new Pose2d(56,-56, Math.toRadians(90) ))
+
+
                                 .build()
                 );
 
