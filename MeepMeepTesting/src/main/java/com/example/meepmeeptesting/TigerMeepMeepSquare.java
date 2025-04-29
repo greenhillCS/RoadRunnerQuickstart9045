@@ -38,12 +38,15 @@ public class TigerMeepMeepSquare {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(60, -67+(botLength/2), Math.toRadians(-90.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(55, -67+(botLength/2), Math.toRadians(-90.00)))
                                 .setReversed(true)
-                                .lineTo(new Vector2d(60, 60))
-                                .lineTo(new Vector2d(-60, 60))
-                                .lineTo(new Vector2d(-60, -60))
-                                .lineTo(new Vector2d(60, -60))
+                                .lineTo(new Vector2d(55, 55))
+                                .turn(Math.toRadians(90))
+                                .lineTo(new Vector2d(-55, 55))
+                                .turn(Math.toRadians(90))
+                                .lineTo(new Vector2d(-55, -55))
+                                .turn(Math.toRadians(90))
+                                .lineTo(new Vector2d(55, -55))
                                 .build()
                 );
 

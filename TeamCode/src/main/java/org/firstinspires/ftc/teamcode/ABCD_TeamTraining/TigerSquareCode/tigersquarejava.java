@@ -25,15 +25,18 @@ public class tigersquarejava extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPos = new Pose2d(60, -67+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90.00));
+        Pose2d startPos = new Pose2d(55, -67+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90.00));
 
 
         cycle1 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .setReversed(true)
-                .lineTo(new Vector2d(60, 55))
-                .lineTo(new Vector2d(-60, 55))
-                .lineTo(new Vector2d(-60, -60))
-                .lineTo(new Vector2d(60, -60))
+                .lineTo(new Vector2d(55, 55))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(-55, 55))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(-55, -55))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(55, -55))
                 .build();
 
         drive.setPoseEstimate(startPos);
