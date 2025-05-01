@@ -40,20 +40,19 @@ public class TejExceelectAmaazingSqaureAutonomweous {
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(56, -56, Math.toRadians(90.00)))
+                        drive.trajectorySequenceBuilder(new Pose2d(56, -53, Math.toRadians(90.00)))
                                 .setReversed(true)
-                                .lineToSplineHeading(new Pose2d(56,56, Math.toRadians(180) ))
+                                .lineTo(new Vector2d(53,53))
+                                .turn(Math.toRadians(90))
 
+                                .lineTo(new Vector2d(-53,53))
+                                .turn(Math.toRadians(90))
 
-                                .lineToSplineHeading(new Pose2d(-56,56, Math.toRadians(270) ))
+                                .lineTo(new Vector2d(-53,-53))
+                                .turn(Math.toRadians(90))
 
-
-                                .lineToSplineHeading(new Pose2d(-56,-56, Math.toRadians(360) ))
-
-
-                                .lineToSplineHeading(new Pose2d(56,-56, Math.toRadians(90) ))
-
-
+                                .lineTo(new Vector2d(53,-53))
+                                .turn(Math.toRadians(90))
                                 .build()
                 );
 

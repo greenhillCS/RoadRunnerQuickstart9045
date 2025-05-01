@@ -32,22 +32,22 @@ public class TejSquare extends LinearOpMode {
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPos = new Pose2d(56, -56, Math.toRadians(90.00));
+        Pose2d startPos = new Pose2d(53, -53, Math.toRadians(90.00));
 
         drive.setPoseEstimate(startPos);
 
 
         TrajectorySequence trajectory = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .lineTo(new Vector2d(56,56))
-                .turn(Math.toRadians(180))
+                .lineTo(new Vector2d(53,53))
+                .turn(Math.toRadians(90))
 
-                .lineTo(new Vector2d(-56,56))
-                .turn(Math.toRadians(270))
+                .lineTo(new Vector2d(-53,53))
+                .turn(Math.toRadians(90))
 
-                .lineTo(new Vector2d(-56,-56))
-                .turn(Math.toRadians(360))
+                .lineTo(new Vector2d(-53,-53))
+                .turn(Math.toRadians(90))
 
-                .lineTo(new Vector2d(56,-56))
+                .lineTo(new Vector2d(53,-53))
                 .turn(Math.toRadians(90))
                 .build();
 
