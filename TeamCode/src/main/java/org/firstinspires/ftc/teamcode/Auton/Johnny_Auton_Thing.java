@@ -17,28 +17,30 @@ import org.firstinspires.ftc.teamcode.drive.Constants.Config.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group="intothedeep", name="OG Auton")
+@Autonomous(group="intothedeep", name="Johnny Thing")
 public class Johnny_Auton_Thing extends LinearOpMode {
 
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPos = new Pose2d(12, -72+(DriveConstants.BOT_LENGTH/2), Math.toRadians(-90.00));
+        Pose2d startPos = new Pose2d(46, -46, 0);
 
         drive.setPoseEstimate(startPos);
 
 
         TrajectorySequence trajectory =  drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-
+                .lineTo(new Vector2d(46, 46))
+                .lineTo(new Vector2d(-46, 46))
+                .lineTo(new Vector2d(-46, -46))
+                .lineTo(new Vector2d(46, -46))
                 .build();
 
         waitForStart();
 
-        drive.followTrajectorySequenceAsync(trajectory);
+
 
         while (!isStopRequested() && opModeIsActive()){
             drive.followTrajectorySequence(trajectory);
-            break;
         }
 
     }
